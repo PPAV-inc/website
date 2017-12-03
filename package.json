@@ -1,13 +1,30 @@
 {
   "name": "website",
-  "version": "0.1.0",
   "description": "",
-  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "homepage": "https://github.com/PPAV-inc/website#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/PPAV-inc/website.git"
   },
-  "author": "",
+  "bugs": {
+    "url": "https://github.com/PPAV-inc/website/issues"
+  },
+  "version": "0.1.0",
+  "main": "index.js",
+  "scripts": {
+    "precommit": "lint-staged",
+    "install-all": "yarn && npm-run-all install:*",
+    "install:client": "cd client && yarn",
+    "install:server": "cd server && yarn",
+    "lint": "eslint server client",
+    "lint:fix": "npm run lint -- --fix",
+    "lint:staged": "lint-staged",
+    "test": "npm run lint:fix && npm run testonly",
+    "testonly": "NODE_ENV=test jest --projects client server",
+    "testonly:cov": "NODE_ENV=test jest --projects client server --coverage --runInBand --forceExit --no-cache"
+  },
   "devDependencies": {
     "babel-eslint": "^8.0.2",
     "babel-jest": "^21.2.0",
@@ -22,26 +39,14 @@
     "jest": "^21.2.1",
     "lint-staged": "^5.0.0",
     "npm-run-all": "^4.1.1",
-    "prettier": "^1.8.2"
-  },
-  "scripts": {
-    "install-all": "yarn && npm-run-all install:*",
-    "install:server": "cd server && yarn",
-    "install:client": "cd client && yarn",
-    "lint": "eslint server client",
-    "lint:fix": "npm run lint -- --fix",
-    "lint:staged": "lint-staged",
-    "precommit": "lint-staged",
-    "test": "npm run lint:fix && npm run testonly",
-    "testonly": "NODE_ENV=test jest --projects client server",
-    "testonly:cov": "NODE_ENV=test jest --projects client server --coverage --runInBand --forceExit --no-cache"
+    "prettier": "^1.8.2",
+    "prettier-package-json": "^1.4.0"
   },
   "lint-staged": {
+    "**/package.json": [
+      "prettier-package-json --write",
+      "git add"
+    ],
     "*.js": "eslint --fix"
-  },
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/PPAV-inc/website/issues"
-  },
-  "homepage": "https://github.com/PPAV-inc/website#readme"
+  }
 }
