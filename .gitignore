@@ -25,6 +25,3 @@ seed.json
 coverage
 junit.xml
 jest-report
-
-# lib
-lib
