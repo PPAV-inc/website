@@ -9,8 +9,7 @@ const typeDefs = `
 
   type Query {
     videos: [Videos],
-    getNewVideos: [Videos],
-    getHotVideos: [Videos],
+    getVideos(category: String, days: Int): [Videos],
   }
 
   type Videos {
@@ -46,59 +45,59 @@ const resolvers = {
         .limit(5)
         .toArray();
     },
-    async getNewVideos() {
+    async getVideos(obj, args) {
+      const { category = 'hot', days = 7 } = args;
+
       const db = await getDatabase();
-      const oneDaysBefore = subDays(new Date(), 100);
+      const daysBefore = subDays(new Date(), days);
 
       // FIXME: store user click url and new button
 
-      return db
-        .collection('videos')
-        .aggregate([
-          { $match: { updated_at: { $gte: oneDaysBefore } } },
-          { $sort: { publishedAt: -1, total_view_count: -1 } },
-          { $limit: 100 },
-          { $sample: { size: 5 } },
-        ])
-        .toArray();
-    },
-    async getHotVideos() {
-      const db = await getDatabase();
-      const sevenDaysBefore = subDays(new Date(), 7);
-
-      let hotVideos = await db
-        .collection('logs')
-        .aggregate([
-          { $match: { createdAt: { $gte: sevenDaysBefore } } },
-          {
-            $group: {
-              _id: '$videoId',
-              videoId: { $first: '$videoId' },
-              count: { $sum: 1 },
+      if (category === 'new') {
+        let hotVideos = await db
+          .collection('logs')
+          .aggregate([
+            { $match: { createdAt: { $gte: daysBefore } } },
+            {
+              $group: {
+                _id: '$videoId',
+                videoId: { $first: '$videoId' },
+                count: { $sum: 1 },
+              },
             },
-          },
-          { $sort: { count: -1 } },
-          { $limit: 100 },
-          { $sample: { size: 5 } },
-        ])
-        .toArray();
+            { $sort: { count: -1 } },
+            { $limit: 100 },
+            { $sample: { size: 5 } },
+          ])
+          .toArray();
 
-      // FIXME: store user click url and hot button
+        // FIXME: store user click url and hot button
 
-      if (hotVideos.length > 0) {
-        hotVideos = hotVideos.map(video => ObjectId(video.videoId));
+        if (hotVideos.length > 0) {
+          hotVideos = hotVideos.map(video => ObjectId(video.videoId));
+
+          return db
+            .collection('videos')
+            .find({ _id: { $in: hotVideos } })
+            .toArray();
+        }
 
         return db
           .collection('videos')
-          .find({ _id: { $in: hotVideos } })
+          .find()
+          .sort({ total_view_count: -1 })
+          .limit(5)
           .toArray();
       }
 
       return db
         .collection('videos')
-        .find()
-        .sort({ total_view_count: -1 })
-        .limit(5)
+        .aggregate([
+          { $match: { updated_at: { $gte: daysBefore } } },
+          { $sort: { publishedAt: -1, total_view_count: -1 } },
+          { $limit: 100 },
+          { $sample: { size: 5 } },
+        ])
         .toArray();
     },
   },
