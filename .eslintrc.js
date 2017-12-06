@@ -23,5 +23,6 @@ module.exports = {
     'react/forbid-prop-types': 'off',
     'react/jsx-wrap-multilines': 'off',
     'react/jsx-indent': 'off',
+    'jsx-a11y/anchor-is-valid': 'off',
   },
 };

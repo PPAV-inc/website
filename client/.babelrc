@@ -5,6 +5,14 @@
     [
       "styled-components",
       { "ssr": true, "displayName": true, "preprocess": false }
+    ],
+    [
+      "transform-assets",
+      {
+        "extensions": ["png"],
+        "regExp": ".*/static/(.+)",
+        "name": "/static/[1]?[sha512:hash:base64:7]"
+      }
     ]
   ]
 }
