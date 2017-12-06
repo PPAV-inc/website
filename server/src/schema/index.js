@@ -8,11 +8,11 @@ const typeDefs = `
   scalar Date
 
   type Query {
-    videos: [Videos],
-    getVideos(category: String, days: Int): [Videos],
+    getVideo(id: String!): Video,
+    getVideos(category: String, days: Int): [Video],
   }
 
-  type Videos {
+  type Video {
     _id: String,
     title: String,
     models: [String],
@@ -28,22 +28,19 @@ const typeDefs = `
   }
 
   type Source {
-    source: String!,
-    url: String!,
+    source: String,
+    url: String,
     view_count: Int,
   }
 `;
 
 const resolvers = {
   Query: {
-    async videos() {
+    async getVideo(obj, args) {
       const db = await getDatabase();
+      const { id } = args;
 
-      return db
-        .collection('videos')
-        .find()
-        .limit(5)
-        .toArray();
+      return db.collection('videos').findOne({ _id: ObjectId(id) });
     },
     async getVideos(obj, args) {
       const { category = 'hot', days = 7 } = args;
@@ -51,7 +48,7 @@ const resolvers = {
       const db = await getDatabase();
       const daysBefore = subDays(new Date(), days);
 
-      // FIXME: store user click url and new button
+      // TODO: store user click url and new button
 
       if (category === 'new') {
         let hotVideos = await db
