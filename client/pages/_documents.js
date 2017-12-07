@@ -34,7 +34,7 @@ export default class CustomDocument extends Document {
             href="/favicon-16x16.png"
           />
         </Head>
-        <body style={{ margin: 0 }}>
+        <body>
           <Main />
           <NextScript />
         </body>
