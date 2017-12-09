@@ -20,10 +20,15 @@ const StyledLayout = styled(Layout)`
     font-family: inherit;
   }
   a {
+    color: #484848 !important;
     text-decoration: none !important;
   }
-  input {
+  input,
+  button {
     outline: none !important;
+  }
+  ul {
+    list-style: none !important;
   }
 `;
 
