@@ -7,6 +7,18 @@
     "testonly:cov": "NODE_ENV=test jest --coverage --runInBand --forceExit",
     "testonly:watch": "NODE_ENV=test jest --watch"
   },
+  "dependencies": {
+    "apollo-server-koa": "^1.2.0",
+    "date-fns": "^1.29.0",
+    "dotenv": "^4.0.0",
+    "elasticsearch": "^14.0.0",
+    "graphql": "^0.11.7",
+    "graphql-tools": "^2.11.0",
+    "koa": "^2.4.1",
+    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^7.3.0",
+    "mongodb": "^2.2.33"
+  },
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-jest": "^21.2.0",
@@ -15,17 +27,6 @@
     "babel-preset-env": "^1.6.1",
     "jest": "^21.2.1",
     "nodemon": "^1.12.1"
-  },
-  "dependencies": {
-    "apollo-server-koa": "^1.2.0",
-    "date-fns": "^1.29.0",
-    "dotenv": "^4.0.0",
-    "graphql": "^0.11.7",
-    "graphql-tools": "^2.11.0",
-    "koa": "^2.4.1",
-    "koa-bodyparser": "^4.2.0",
-    "koa-router": "^7.3.0",
-    "mongodb": "^2.2.33"
   },
   "jest": {
     "testPathIgnorePatterns": [
