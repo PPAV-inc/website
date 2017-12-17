@@ -1,6 +1,8 @@
 {
   "scripts": {
     "dev": "nodemon bin/start.dev",
+    "seed": "NODE_ENV=dev seed && mongo-to-elastic --mp 27027 --db ppav -c videos --con 1 --ep 9400",
+    "seed-setup": "seed-setup",
     "start": "NODE_ENV=production node server",
     "test": "npm run testonly",
     "testonly": "NODE_ENV=test jest",
@@ -26,6 +28,8 @@
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
     "jest": "^21.2.1",
+    "mongo-to-elastic": "^0.0.2",
+    "node-mongo-seeds": "^2.3.2",
     "nodemon": "^1.12.1"
   },
   "jest": {
