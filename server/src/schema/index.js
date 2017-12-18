@@ -7,7 +7,7 @@ const typeDefs = `
 
   type Query {
     getVideo(id: String!): Video,
-    getVideos(keyword: String, models: [String], tags: [String], sources: [String], days: Int): [Video],
+    getVideos(keyword: String, models: [String], tags: [String], sources: [String], days: Int, sort: String): [Video],
   }
 
   type Video {
