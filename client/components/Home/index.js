@@ -1,16 +1,46 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Button } from 'antd';
+import React, { Component } from 'react';
+import { graphql, compose } from 'react-apollo';
+import gql from 'graphql-tag';
+import styled from 'styled-components';
+import { Row, Col } from 'antd';
 
-const Home = props => (
-  <div>
-    <p>Hello World path: {props.url.pathname}</p>
-    <Button type="primary">Primary</Button>
-  </div>
-);
+import SearchInput from './SearchInput';
 
-Home.propTypes = {
-  url: PropTypes.object.isRequired,
-};
+const homePageQuery = gql`
+  query videos {
+    videos {
+      title
+      models
+      img_url
+      code
+      total_view_count
+      publishedAt
+    }
+  }
+`;
 
-export default Home;
+const SearchSection = styled.section`
+  height: 70vh;
+  width: 100%;
+`;
+
+class Home extends Component {
+  render() {
+    return (
+      <SearchSection>
+        <Row
+          style={{ height: '100%' }}
+          type="flex"
+          justify="center"
+          align="middle"
+        >
+          <Col span={12}>
+            <SearchInput />
+          </Col>
+        </Row>
+      </SearchSection>
+    );
+  }
+}
+
+export default compose(graphql(homePageQuery))(Home);

@@ -27,8 +27,8 @@ export default async (obj, args) => {
   }
 
   const { days = 7, models = [], tags = [], sources = [], sort } = args;
-
   const db = await getMongoDatabase();
+
   const daysBefore = subDays(new Date(), days);
 
   const aggregateArr = [{ $match: { updated_at: { $gte: daysBefore } } }];
@@ -50,8 +50,10 @@ export default async (obj, args) => {
   // FIXME: should remove before production released
   aggregateArr.push({ $limit: 10 });
 
-  return db
+  const videos = await db
     .collection('videos')
     .aggregate(aggregateArr)
     .toArray();
+
+  return videos;
 };

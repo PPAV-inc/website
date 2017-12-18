@@ -48,23 +48,46 @@ const SearchButton = styled.button`
 `;
 
 class Header extends Component {
+  state = {
+    scrollY: 0,
+    innerHeight: 0,
+  };
+
+  componentDidMount() {
+    window.addEventListener('scroll', this.handleScroll.bind(this));
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.handleScroll.bind(this));
+  }
+
+  handleScroll() {
+    this.setState({ scrollY: window.scrollY, innerHeight: window.innerHeight });
+  }
+
   render() {
+    const { scrollY, innerHeight } = this.state;
+    const shouldShow = scrollY > innerHeight;
     return (
-      <StyledHeader>
-        <Row>
-          <Col xs={4} md={2} xl={2}>
-            <Link route="/?logo=1">
-              <Logo src={logo} alt="Logo" />
-            </Link>
-          </Col>
-          <Col xs={18} md={9} xl={9}>
-            <SearchInput placeholder="試試「波多野結衣」" />
-          </Col>
-          <Col xs={2} md={1} xl={1}>
-            <SearchButton>搜尋</SearchButton>
-          </Col>
-        </Row>
-      </StyledHeader>
+      <div>
+        {shouldShow ? (
+          <StyledHeader>
+            <Row>
+              <Col xs={4} md={2} xl={2}>
+                <Link route="/?logo=1">
+                  <Logo src={logo} alt="Logo" />
+                </Link>
+              </Col>
+              <Col xs={18} md={9} xl={9}>
+                <SearchInput placeholder="試試「波多野結衣」" />
+              </Col>
+              <Col xs={2} md={1} xl={1}>
+                <SearchButton>搜尋</SearchButton>
+              </Col>
+            </Row>
+          </StyledHeader>
+        ) : null}
+      </div>
     );
   }
 }
