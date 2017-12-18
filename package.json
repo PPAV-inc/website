@@ -47,6 +47,9 @@
       "prettier-package-json --write",
       "git add"
     ],
-    "*.js": "eslint --fix"
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   }
 }
