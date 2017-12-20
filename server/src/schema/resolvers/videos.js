@@ -26,7 +26,14 @@ export default async (obj, args) => {
     return hits.map(hit => ({ _id: hit._id, ...hit._source }));
   }
 
-  const { days = 7, models = [], tags = [], sources = [], sort } = args;
+  const {
+    days = 7,
+    models = [],
+    tags = [],
+    sources = [],
+    sort,
+    limit = 10,
+  } = args;
   const db = await getMongoDatabase();
 
   const daysBefore = subDays(new Date(), days);
@@ -48,7 +55,7 @@ export default async (obj, args) => {
   }
 
   // FIXME: should remove before production released
-  aggregateArr.push({ $limit: 10 });
+  aggregateArr.push({ $limit: limit });
 
   const videos = await db
     .collection('videos')
