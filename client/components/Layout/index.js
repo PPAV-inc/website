@@ -32,10 +32,6 @@ const StyledLayout = styled(Layout)`
   }
 `;
 
-const StyledContent = styled(Content)`
-  margin-top: 80px;
-`;
-
 const CustomLayout = ({ children, title }) => (
   <div>
     <Head>
@@ -48,7 +44,7 @@ const CustomLayout = ({ children, title }) => (
 
     <StyledLayout>
       <Header />
-      <StyledContent>{children}</StyledContent>
+      <Content>{children}</Content>
       <Footer />
     </StyledLayout>
   </div>

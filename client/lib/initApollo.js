@@ -21,6 +21,7 @@ const create = initialState =>
       },
     }),
     cache: new InMemoryCache().restore(initialState || {}),
+    shouldBatch: true,
   });
 
 export default function initApollo(initialState) {

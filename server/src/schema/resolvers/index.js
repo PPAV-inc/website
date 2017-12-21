@@ -1,2 +1,2 @@
-export { default as getVideo } from './getVideo';
-export { default as getVideos } from './getVideos';
+export { default as video } from './video';
+export { default as videos } from './videos';
