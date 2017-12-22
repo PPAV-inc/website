@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
 import styled from 'styled-components';
@@ -8,6 +9,7 @@ import logo from '../../static/logo.png';
 import { Link } from '../../routes';
 
 import SearchInput from './SearchInput';
+import Videos from './Videos';
 
 const VIDEOS_NUMBER = 6;
 const videosFragment = gql`
@@ -38,6 +40,10 @@ const SearchSection = styled.section`
   width: 100%;
 `;
 
+const VideosSection = styled.section`
+  margin: 80px;
+`;
+
 const Logo = styled.img`
   height: 80px;
   padding: 20px 20px 20px 0;
@@ -46,7 +52,9 @@ const Logo = styled.img`
 
 class Home extends Component {
   render() {
-    return (
+    const { videosQuery: { hot, latest } } = this.props;
+
+    return [
       <SearchSection>
         <Row
           type="flex"
@@ -70,10 +78,24 @@ class Home extends Component {
             <SearchInput />
           </Col>
         </Row>
-      </SearchSection>
-    );
+      </SearchSection>,
+      <VideosSection>
+        {hot ? <Videos title="熱門影片" videos={hot} /> : null}
+      </VideosSection>,
+      <VideosSection>
+        {latest ? <Videos title="最新影片" videos={latest} /> : null}
+      </VideosSection>,
+    ];
   }
 }
+
+Home.propTypes = {
+  videosQuery: PropTypes.object,
+};
+
+Home.defaultProps = {
+  videosQuery: {},
+};
 
 export default compose(
   graphql(videosQuery, {
