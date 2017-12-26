@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Layout, Row, Col } from 'antd';
 import styled from 'styled-components';
 
-import SearchInput from '../Home/SearchInput';
+import SearchInput from '../SearchInput';
 import logo from '../../static/logo.png';
 import { Link } from '../../routes';
 
@@ -31,11 +32,15 @@ class Header extends Component {
   };
 
   componentDidMount() {
-    window.addEventListener('scroll', this.handleScroll.bind(this));
+    if (!this.props.shouldShow) {
+      window.addEventListener('scroll', this.handleScroll.bind(this));
+    }
   }
 
   componentWillUnmount() {
-    window.removeEventListener('scroll', this.handleScroll.bind(this));
+    if (!this.props.shouldShow) {
+      window.removeEventListener('scroll', this.handleScroll.bind(this));
+    }
   }
 
   handleScroll() {
@@ -44,7 +49,8 @@ class Header extends Component {
 
   render() {
     const { scrollY, innerHeight } = this.state;
-    const shouldShow = scrollY > innerHeight;
+    const shouldShow = this.props.shouldShow || scrollY > innerHeight;
+
     return (
       <div>
         {shouldShow ? (
@@ -56,7 +62,7 @@ class Header extends Component {
                 </Link>
               </Col>
               <Col xs={20} md={10} xl={10}>
-                <SearchInput placeholder="試試「波多野結衣」" />
+                <SearchInput value={this.props.value} />
               </Col>
             </Row>
           </StyledHeader>
@@ -65,5 +71,14 @@ class Header extends Component {
     );
   }
 }
+
+Header.propTypes = {
+  shouldShow: PropTypes.bool,
+  value: PropTypes.string.isRequired,
+};
+
+Header.defaultProps = {
+  shouldShow: false,
+};
 
 export default Header;

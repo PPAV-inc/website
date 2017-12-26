@@ -2,10 +2,10 @@ import React from 'react';
 
 import withData from '../lib/withData';
 import Layout from '../components/Layout';
-import Home from '../components/Home';
+import Search from '../components/Search';
 
 export default withData(props => (
-  <Layout page="home" headerValue="">
-    <Home {...props} />
+  <Layout page="search" headerValue={decodeURI(props.url.query.keyword)}>
+    <Search {...props} />
   </Layout>
 ));

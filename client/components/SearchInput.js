@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { Row, Col, Input } from 'antd';
 import styled from 'styled-components';
+
+import { Router } from '../routes';
 
 const StyledInput = styled(Input)`
   height: 48px;
@@ -20,6 +23,7 @@ const SearchButton = styled.button`
   width: 100%;
   height: 48px;
   margin: 14px 0;
+  border-radius: 3px;
   background: #e73f0c;
   color: #fff;
   cursor: pointer;
@@ -27,18 +31,42 @@ const SearchButton = styled.button`
 `;
 
 class SearchInput extends Component {
+  state = {
+    value: this.props.value,
+  };
+
+  handleChange = e => {
+    this.setState({ value: e.target.value });
+  };
+
+  handleClick = () => {
+    Router.pushRoute('search', { keyword: this.state.value });
+  };
+
   render() {
     return (
       <Row type="flex" justify="center" align="middle">
         <Col xs={20} md={20} xl={20}>
-          <StyledInput placeholder="試試「波多野結衣」" />
+          <StyledInput
+            placeholder="試試「波多野結衣」"
+            value={this.state.value}
+            onChange={this.handleChange}
+          />
         </Col>
         <Col xs={4} md={4} xl={4}>
-          <SearchButton>搜尋</SearchButton>
+          <SearchButton onClick={this.handleClick}>搜尋</SearchButton>
         </Col>
       </Row>
     );
   }
 }
+
+SearchInput.propTypes = {
+  value: PropTypes.string,
+};
+
+SearchInput.defaultProps = {
+  value: '',
+};
 
 export default SearchInput;
