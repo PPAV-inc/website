@@ -4,10 +4,8 @@ import withData from '../lib/withData';
 import Layout from '../components/Layout';
 import Home from '../components/Home';
 
-const Body = withData(props => (
+export default withData(props => (
   <Layout>
-    <Home url={props.url} />
+    <Home {...props} />
   </Layout>
 ));
-
-export default props => <Body {...props} />;

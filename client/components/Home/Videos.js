@@ -14,8 +14,8 @@ const FirstRow = styled(Row)`
 class Videos extends Component {
   renderVideos = videos =>
     videos.map(({ code, img_url: imgURL, title, publishedAt }) => (
-      <Col span={8}>
-        <Card hoverable key={code} cover={<img alt={code} src={imgURL} />}>
+      <Col span={8} key={code}>
+        <Card hoverable cover={<img alt={code} src={imgURL} />}>
           <Meta
             title={<span style={{ whiteSpace: 'normal' }}>{title}</span>}
             description={publishedAt}

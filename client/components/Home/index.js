@@ -55,7 +55,7 @@ class Home extends Component {
     const { videosQuery: { hot, latest } } = this.props;
 
     return [
-      <SearchSection>
+      <SearchSection key="searchSection">
         <Row
           type="flex"
           justify="start"
@@ -69,20 +69,20 @@ class Home extends Component {
           </Col>
         </Row>
         <Row
-          style={{ height: '100%' }}
           type="flex"
           justify="center"
           align="middle"
+          style={{ height: '100%' }}
         >
           <Col span={12}>
             <SearchInput />
           </Col>
         </Row>
       </SearchSection>,
-      <VideosSection>
+      <VideosSection key="hot">
         {hot ? <Videos title="熱門影片" videos={hot} /> : null}
       </VideosSection>,
-      <VideosSection>
+      <VideosSection key="latest">
         {latest ? <Videos title="最新影片" videos={latest} /> : null}
       </VideosSection>,
     ];
