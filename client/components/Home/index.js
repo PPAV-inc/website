@@ -19,6 +19,7 @@ const videosFragment = gql`
     img_url
     code
     total_view_count
+    tags
     publishedAt
   }
 `;

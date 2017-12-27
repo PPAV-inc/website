@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Row, Card, Button } from 'antd';
+import { Col, Row, Card, Button, Tag } from 'antd';
 import styled from 'styled-components';
+import format from 'date-fns/format';
 
 import { Link } from '../../routes';
 
@@ -13,19 +14,49 @@ const FirstRow = styled(Row)`
 
 class Videos extends Component {
   renderVideos = videos =>
-    videos.map(({ code, img_url: imgURL, title, publishedAt }) => (
-      <Col span={8} key={code}>
-        <Card hoverable cover={<img alt={code} src={imgURL} />}>
-          <Meta
-            title={<span style={{ whiteSpace: 'normal' }}>{title}</span>}
-            description={publishedAt}
-          />
-        </Card>
-      </Col>
-    ));
+    videos.map(
+      ({
+        code,
+        img_url: imgURL,
+        title,
+        publishedAt,
+        models,
+        tags,
+        total_view_count: totalViewCount,
+      }) => (
+        <Col span={8} key={code}>
+          <Card hoverable cover={<img alt={code} src={imgURL} />}>
+            <Meta
+              title={
+                <span style={{ whiteSpace: 'normal' }}>
+                  <b>{`[${code}]`}</b>
+                  <br />
+                  {`${title}`}
+                </span>
+              }
+              description={
+                <div>
+                  <span>{`🎬 ${models.join(', ')}`}</span>
+                  <br />
+                  <span>
+                    {`🗓 ${format(publishedAt, 'YYYY/MM/DD')} 👁 ${
+                      totalViewCount
+                    }`}
+                  </span>
+                  <br />
+                  <br />
+                  {tags.map(tag => <Tag color="magenta">{tag}</Tag>)}
+                </div>
+              }
+            />
+          </Card>
+        </Col>
+      )
+    );
 
   render() {
     const { title, videos } = this.props;
+    console.log(videos);
 
     return (
       <Card
