@@ -10,9 +10,9 @@ const getMongoDatabase = async () => {
   }
 
   const mongodbPath =
-    process.env.NODE_ENV === 'development'
-      ? process.env.DEV_MONGODB_PATH
-      : process.env.PROD_MONGODB_PATH;
+    process.env.NODE_ENV === 'production'
+      ? process.env.PROD_MONGODB_PATH
+      : process.env.DEV_MONGODB_PATH;
 
   const db = await MongoClient.connect(mongodbPath);
   _mongodb = db;
@@ -25,9 +25,9 @@ const getElasticsearchDatabase = () => {
   }
 
   const esPath =
-    process.env.NODE_ENV === 'development'
-      ? process.env.DEV_ES_PATH
-      : process.env.PROD_ES_PATH;
+    process.env.NODE_ENV === 'production'
+      ? process.env.PROD_ES_PATH
+      : process.env.DEV_ES_PATH;
 
   const db = new elasticsearch.Client({
     host: esPath,
