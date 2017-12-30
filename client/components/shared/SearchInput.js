@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Row, Col, Input } from 'antd';
 import styled from 'styled-components';
 
-import { Router } from '../routes';
+import { Router } from '../../routes';
 
 const StyledInput = styled(Input)`
   height: 48px;

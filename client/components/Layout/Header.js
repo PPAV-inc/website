@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Layout, Row, Col } from 'antd';
 import styled from 'styled-components';
 
-import SearchInput from '../SearchInput';
+import SearchInput from '../shared/SearchInput';
 import logo from '../../static/logo.png';
 import { Link } from '../../routes';
 

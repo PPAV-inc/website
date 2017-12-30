@@ -7,7 +7,7 @@ import { Row, Col } from 'antd';
 
 import logo from '../../static/logo.png';
 import { Link } from '../../routes';
-import SearchInput from '../SearchInput';
+import SearchInput from '../shared/SearchInput';
 
 import Videos from './Videos';
 
