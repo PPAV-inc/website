@@ -27,7 +27,7 @@ export default async (obj, args) => {
   }
 
   const {
-    days = 7,
+    days = 365,
     models = [],
     tags = [],
     sources = [],

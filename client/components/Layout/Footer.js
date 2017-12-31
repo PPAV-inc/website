@@ -56,10 +56,14 @@ class Footer extends Component {
           <Col xs={6} md={6} xl={6}>
             <StyledUl>
               <StyledLi>
-                <Link route="/about">關於 PPAV</Link>
+                <Link route="/about">
+                  <span>關於 PPAV</span>
+                </Link>
               </StyledLi>
               <StyledLi>
-                <Link route="/help">協助</Link>
+                <Link route="/help">
+                  <span>協助</span>
+                </Link>
               </StyledLi>
               <StyledLi>
                 <a
@@ -78,13 +82,19 @@ class Footer extends Component {
           <Col xs={6} md={6} xl={6}>
             <StyledUl>
               <StyledLi>
-                <Link route="/terms-of-service">使用條款</Link>
+                <Link route="/terms-of-service">
+                  <span>使用條款</span>
+                </Link>
               </StyledLi>
               <StyledLi>
-                <Link route="/privacy">隱私政策</Link>
+                <Link route="/privacy">
+                  <span>隱私政策</span>
+                </Link>
               </StyledLi>
               <StyledLi>
-                <Link route="/sitemap">網站地圖</Link>
+                <Link route="/sitemap">
+                  <span>網站地圖</span>
+                </Link>
               </StyledLi>
             </StyledUl>
           </Col>
@@ -95,10 +105,10 @@ class Footer extends Component {
             <CompanyName>PPAV</CompanyName>
           </Col>
           <Col span={24} style={{ textAlign: 'center' }}>
-            <p style={{ color: '#9ba2a6' }}>
+            <div style={{ color: '#9ba2a6' }}>
               <Icon type="copyright" /> PPAV <Divider type="vertical" />{' '}
               版權所有
-            </p>
+            </div>
           </Col>
         </Row>
       </StyledFooter>

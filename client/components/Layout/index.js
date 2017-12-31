@@ -32,7 +32,7 @@ const StyledLayout = styled(Layout)`
   }
 `;
 
-const CustomLayout = ({ children, title }) => (
+const CustomLayout = ({ children, title, page, headerValue }) => (
   <div>
     <Head>
       <title>{title}</title>
@@ -43,7 +43,7 @@ const CustomLayout = ({ children, title }) => (
     </Head>
 
     <StyledLayout>
-      <Header />
+      <Header shouldShow={page === 'search'} value={headerValue} />
       <Content>{children}</Content>
       <Footer />
     </StyledLayout>
@@ -52,6 +52,8 @@ const CustomLayout = ({ children, title }) => (
 
 CustomLayout.propTypes = {
   children: PropTypes.element.isRequired,
+  headerValue: PropTypes.string.isRequired,
+  page: PropTypes.string.isRequired,
   title: PropTypes.string,
 };
 

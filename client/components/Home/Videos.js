@@ -1,29 +1,16 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Col, Row, Card, Button } from 'antd';
+import { Row, Card, Button } from 'antd';
 import styled from 'styled-components';
 
+import VideosRow from '../shared/VideosRow';
 import { Link } from '../../routes';
-
-const { Meta } = Card;
 
 const FirstRow = styled(Row)`
   margin-bottom: 30px;
 `;
 
 class Videos extends Component {
-  renderVideos = videos =>
-    videos.map(({ code, img_url: imgURL, title, publishedAt }) => (
-      <Col span={8}>
-        <Card hoverable key={code} cover={<img alt={code} src={imgURL} />}>
-          <Meta
-            title={<span style={{ whiteSpace: 'normal' }}>{title}</span>}
-            description={publishedAt}
-          />
-        </Card>
-      </Col>
-    ));
-
   render() {
     const { title, videos } = this.props;
 
@@ -37,8 +24,12 @@ class Videos extends Component {
           </Link>
         }
       >
-        <FirstRow gutter={16}>{this.renderVideos(videos.slice(0, 3))}</FirstRow>
-        <Row gutter={16}>{this.renderVideos(videos.slice(3))}</Row>
+        <FirstRow gutter={16} type="flex" justify="space-around">
+          <VideosRow videos={videos.slice(0, 3)} colSpan={8} />
+        </FirstRow>
+        <Row gutter={16}>
+          <VideosRow videos={videos.slice(3)} colSpan={8} />
+        </Row>
       </Card>
     );
   }
