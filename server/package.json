@@ -19,7 +19,8 @@
     "koa": "^2.4.1",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.3.0",
-    "mongodb": "^2.2.33"
+    "mongodb": "^2.2.33",
+    "p-map": "^1.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
