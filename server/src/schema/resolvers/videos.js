@@ -3,8 +3,56 @@ import subDays from 'date-fns/sub_days';
 import { getMongoDatabase, getElasticsearchDatabase } from '../../database';
 
 export default async (obj, args) => {
-  const { keyword } = args;
-  if (keyword) {
+  const {
+    days = -1,
+    models = [],
+    tags = [],
+    sources = [],
+    sort,
+    page = 0,
+    keyword,
+  } = args;
+  const db = await getMongoDatabase();
+  let results;
+
+  const aggregateArr = [];
+
+  if (days > -1) {
+    const daysBefore = subDays(new Date(), days);
+    aggregateArr.push({ $match: { updated_at: { $gte: daysBefore } } });
+  }
+  if (models.length > 0) {
+    aggregateArr.push({ $match: { models: { $in: models } } });
+  }
+  if (tags.length > 0) {
+    aggregateArr.push({ $match: { tags: { $in: tags } } });
+  }
+  if (sources.length > 0) {
+    aggregateArr.push({ $match: { 'videos.source': { $in: sources } } });
+  }
+  if (sort) {
+    aggregateArr.push({ $sort: { [sort]: -1 } });
+  }
+  if (page > 0) {
+    aggregateArr.push({ $skip: page * 10 });
+  }
+  if (/^ppav$/i.test(keyword)) {
+    aggregateArr.push({ $sample: { size: 20 } });
+  }
+
+  if (aggregateArr.length > 0) {
+    if (!/^ppav$/i.test(keyword)) {
+      // _id For ES
+      aggregateArr.push({ $project: { _id: 1 } });
+    }
+
+    results = await db
+      .collection('videos')
+      .aggregate(aggregateArr)
+      .toArray();
+  }
+
+  if (!/^ppav$/i.test(keyword)) {
     const esClient = getElasticsearchDatabase();
 
     const { hits: { hits } } = await esClient.search({
@@ -23,44 +71,8 @@ export default async (obj, args) => {
       },
     });
 
-    return hits.map(hit => ({ _id: hit._id, ...hit._source }));
+    results = hits.map(hit => ({ _id: hit._id, ...hit._source }));
   }
 
-  const {
-    days = 365,
-    models = [],
-    tags = [],
-    sources = [],
-    sort,
-    limit = 10,
-  } = args;
-  const db = await getMongoDatabase();
-
-  const daysBefore = subDays(new Date(), days);
-
-  const aggregateArr = [{ $match: { updated_at: { $gte: daysBefore } } }];
-
-  if (models.length > 0) {
-    aggregateArr.push({ $match: { models: { $in: models } } });
-  }
-  if (tags.length > 0) {
-    aggregateArr.push({ $match: { tags: { $in: tags } } });
-  }
-  if (sources.length > 0) {
-    aggregateArr.push({ $match: { 'videos.source': { $in: sources } } });
-  }
-
-  if (sort) {
-    aggregateArr.push({ $sort: { [sort]: -1 } });
-  }
-
-  // FIXME: should remove before production released
-  aggregateArr.push({ $limit: limit });
-
-  const videos = await db
-    .collection('videos')
-    .aggregate(aggregateArr)
-    .toArray();
-
-  return videos;
+  return results;
 };
