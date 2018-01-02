@@ -5,22 +5,22 @@ import { getMongoDatabase, getElasticsearchDatabase } from '../../database';
 
 export default async (obj, args) => {
   const {
-    days = -1,
+    days,
     models = [],
     tags = [],
     sources = [],
-    // FIXME
-    // sort,
-    // page = 0,
+    sort,
+    page,
     keyword,
   } = args;
   const db = await getMongoDatabase();
   let results;
+  let total = -1;
 
   const aggregateArr = [];
   const isPPAV = /^ppav$/i.test(keyword);
 
-  if (days > -1) {
+  if (days) {
     const daysBefore = subDays(new Date(), days);
     aggregateArr.push({ $match: { updated_at: { $gte: daysBefore } } });
   }
@@ -36,10 +36,14 @@ export default async (obj, args) => {
 
   if (aggregateArr.length > 0 || isPPAV) {
     // aviod too many documents
+    // FIXME
     aggregateArr.push({ $limit: 1000 });
 
     if (isPPAV) {
-      aggregateArr.push({ $sample: { size: 20 } });
+      aggregateArr.push({ $sample: { size: 10 } });
+      if (sort) {
+        aggregateArr.push({ $sort: { [sort]: -1 } });
+      }
     } else {
       // _id For ES
       aggregateArr.push({ $project: { _id: 1 } });
@@ -70,20 +74,29 @@ export default async (obj, args) => {
       size: 10,
     };
 
+    // get results from mongoDB
     if (results) {
       const filterIds = results.map(each => each._id);
 
       set(queryBody, 'query.bool.filter.terms._id', filterIds);
     }
+    if (sort) {
+      set(queryBody, `sort[0].${sort}`, 'desc');
+      set(queryBody, `sort[1]._score`, 'desc');
+    }
+    if (page) {
+      queryBody.from = page * 10;
+    }
 
-    const { hits: { hits } } = await esClient.search({
+    const { hits: { total: _total, hits } } = await esClient.search({
       index: 'videos',
       type: 'videos',
       body: queryBody,
     });
 
+    total = _total;
     results = hits.map(hit => ({ _id: hit._id, ...hit._source }));
   }
 
-  return results;
+  return { results, total };
 };
