@@ -1,13 +1,15 @@
 import { makeExecutableSchema } from 'graphql-tools';
 
-import { video, videos } from './resolvers';
+import { video, searchVideos, hotVideos, newVideos } from './resolvers';
 
 const typeDefs = `
   scalar Date
 
   type Query {
     video(id: String!): Video,
-    videos(keyword: String!, models: [String], tags: [String], sources: [String], days: Int, sort: String, page: Int): SearchResult,
+    searchVideos(keyword: String!, models: [String], tags: [String], sources: [String], days: Int, sort: String, page: Int): SearchResult,
+    hotVideos: [Video],
+    newVideos: [Video],
   }
 
   type SearchResult {
@@ -40,7 +42,9 @@ const typeDefs = `
 const resolvers = {
   Query: {
     video,
-    videos,
+    searchVideos,
+    hotVideos,
+    newVideos,
   },
   Date: {
     __serialize(value) {
