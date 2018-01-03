@@ -4,15 +4,7 @@ import set from 'lodash/set';
 import { getMongoDatabase, getElasticsearchDatabase } from '../../database';
 
 export default async (obj, args) => {
-  const {
-    days,
-    models = [],
-    tags = [],
-    sources = [],
-    sort,
-    page,
-    keyword,
-  } = args;
+  const { days, models, tags, sources, sort, page, keyword } = args;
   const db = await getMongoDatabase();
   let results;
   let total = -1;
