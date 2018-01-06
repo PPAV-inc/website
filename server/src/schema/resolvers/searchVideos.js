@@ -10,19 +10,19 @@ export default async (obj, args) => {
   let total = -1;
 
   const aggregateArr = [];
-  const isPPAV = /^ppav$/i.test(keyword);
+  const isPPAV = !keyword || /^ppav$/i.test(keyword);
 
   if (days) {
     const daysBefore = subDays(new Date(), days);
     aggregateArr.push({ $match: { updated_at: { $gte: daysBefore } } });
   }
-  if (models.length > 0) {
+  if (models && models.length > 0) {
     aggregateArr.push({ $match: { models: { $in: models } } });
   }
-  if (tags.length > 0) {
+  if (tags && tags.length > 0) {
     aggregateArr.push({ $match: { tags: { $in: tags } } });
   }
-  if (sources.length > 0) {
+  if (sources && sources.length > 0) {
     aggregateArr.push({ $match: { 'videos.source': { $in: sources } } });
   }
 
