@@ -3,6 +3,8 @@ import set from 'lodash/set';
 
 import { getMongoDatabase, getElasticsearchDatabase } from '../../database';
 
+const PAGE_VIDEOS_NUMBER = 12;
+
 export default async (obj, args) => {
   const { days, models, tags, sources, sort, page, keyword } = args;
   const db = await getMongoDatabase();
@@ -32,7 +34,7 @@ export default async (obj, args) => {
     aggregateArr.push({ $limit: 1000 });
 
     if (isPPAV) {
-      aggregateArr.push({ $sample: { size: 10 } });
+      aggregateArr.push({ $sample: { size: PAGE_VIDEOS_NUMBER } });
       if (sort) {
         aggregateArr.push({ $sort: { [sort]: -1 } });
       }
@@ -63,7 +65,7 @@ export default async (obj, args) => {
         },
       },
       min_score: 50,
-      size: 10,
+      size: PAGE_VIDEOS_NUMBER,
     };
 
     // get results from mongoDB
@@ -77,7 +79,7 @@ export default async (obj, args) => {
       set(queryBody, `sort[1]._score`, 'desc');
     }
     if (page) {
-      queryBody.from = page * 10;
+      queryBody.from = page * PAGE_VIDEOS_NUMBER;
     }
 
     const { hits: { total: _total, hits } } = await esClient.search({

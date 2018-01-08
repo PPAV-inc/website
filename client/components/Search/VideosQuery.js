@@ -4,8 +4,8 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 
 const QUERY = gql`
-  query searchVideos($keyword: String!, $sort: String!) {
-    searchVideos(keyword: $keyword, sort: $sort) {
+  query searchVideos($keyword: String!, $sort: String!, $models: [String]!) {
+    searchVideos(keyword: $keyword, sort: $sort, models: $models) {
       total
       results {
         title
@@ -22,7 +22,12 @@ const QUERY = gql`
 
 class VideosQuery extends Component {
   render() {
-    return this.props.children(this.props.data);
+    if (!this.props.data.loading) {
+      console.log(this.props.data);
+      return this.props.children(this.props.data);
+    }
+
+    return null;
   }
 }
 
@@ -32,7 +37,7 @@ VideosQuery.propTypes = {
 };
 
 export default graphql(QUERY, {
-  options: ({ keyword = '', sort = 'total_view_count' }) => ({
-    variables: { keyword, sort },
+  options: ({ keyword = '', sort = 'total_view_count', models = [] }) => ({
+    variables: { keyword, sort, models },
   }),
 })(VideosQuery);

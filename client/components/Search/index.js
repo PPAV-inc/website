@@ -27,6 +27,7 @@ const FilterSection = styled.section`
 class Search extends Component {
   state = {
     sort: 'total_view_count',
+    models: [],
   };
 
   onSortChange = value => {
@@ -36,26 +37,37 @@ class Search extends Component {
     }));
   };
 
+  onModelsChange = value => {
+    this.setState(prevState => ({
+      ...prevState,
+      models: value,
+    }));
+  };
+
   render() {
     const keyword = decodeURI(this.props.url.query.keyword);
-    const { sort } = this.state;
+    const { sort, models } = this.state;
 
     return (
       <SearchSection>
         <FilterSection>
           <VideosQuery keyword={keyword} sort={sort}>
             {({ searchVideos: { results } }) => (
-              <Filter videos={results} onSortChange={this.onSortChange} />
+              <Filter
+                videos={results}
+                onSortChange={this.onSortChange}
+                onModelsChange={this.onModelsChange}
+              />
             )}
           </VideosQuery>
         </FilterSection>
         <VideosSection>
-          <VideosQuery keyword={keyword} sort={sort}>
+          <VideosQuery keyword={keyword} sort={sort} models={models}>
             {({ searchVideos: { total, results } }) => [
-              <p>
+              <p key="total">
                 有 <b>{total}</b> 項結果
               </p>,
-              <Videos videos={results} />,
+              <Videos videos={results} key="videos" />,
             ]}
           </VideosQuery>
         </VideosSection>
