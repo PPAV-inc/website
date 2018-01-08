@@ -11,7 +11,6 @@ import SearchInput from '../shared/SearchInput';
 
 import Videos from './Videos';
 
-const VIDEOS_NUMBER = 6;
 const videosFragment = gql`
   fragment SimpleVideo on Video {
     title
@@ -24,12 +23,18 @@ const videosFragment = gql`
   }
 `;
 
-const videosQuery = gql`
-  query videos($sort_hot: String!, $sort_latest: String!, $limit: Int!) {
-    hot: videos(sort: $sort_hot, limit: $limit) {
+const hotVideosQuery = gql`
+  query {
+    hotVideos {
       ...SimpleVideo
     }
-    latest: videos(sort: $sort_latest, limit: $limit) {
+  }
+  ${videosFragment}
+`;
+
+const newVideosQuery = gql`
+  query {
+    newVideos {
       ...SimpleVideo
     }
   }
@@ -53,7 +58,10 @@ const Logo = styled.img`
 
 class Home extends Component {
   render() {
-    const { videosQuery: { hot, latest } } = this.props;
+    const {
+      hotVideosQuery: { hotVideos },
+      newVideosQuery: { newVideos },
+    } = this.props;
 
     return [
       <SearchSection key="searchSection">
@@ -81,32 +89,26 @@ class Home extends Component {
         </Row>
       </SearchSection>,
       <VideosSection key="hot">
-        {hot ? <Videos title="熱門影片" videos={hot} /> : null}
+        {hotVideos ? <Videos title="熱門影片" videos={hotVideos} /> : null}
       </VideosSection>,
       <VideosSection key="latest">
-        {latest ? <Videos title="最新影片" videos={latest} /> : null}
+        {newVideos ? <Videos title="最新影片" videos={newVideos} /> : null}
       </VideosSection>,
     ];
   }
 }
 
 Home.propTypes = {
-  videosQuery: PropTypes.object,
+  hotVideosQuery: PropTypes.object,
+  newVideosQuery: PropTypes.object,
 };
 
 Home.defaultProps = {
-  videosQuery: {},
+  newVideosQuery: {},
+  hotVideosQuery: {},
 };
 
 export default compose(
-  graphql(videosQuery, {
-    name: 'videosQuery',
-    options: {
-      variables: {
-        sort_hot: 'total_view_count',
-        sort_latest: 'publishedAt',
-        limit: VIDEOS_NUMBER,
-      },
-    },
-  })
+  graphql(newVideosQuery, { name: 'newVideosQuery' }),
+  graphql(hotVideosQuery, { name: 'hotVideosQuery' })
 )(Home);
