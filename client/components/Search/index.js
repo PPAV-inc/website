@@ -44,14 +44,19 @@ class Search extends Component {
       <SearchSection>
         <FilterSection>
           <VideosQuery keyword={keyword} sort={sort}>
-            {({ videos }) => (
-              <Filter videos={videos} onSortChange={this.onSortChange} />
+            {({ searchVideos: { results } }) => (
+              <Filter videos={results} onSortChange={this.onSortChange} />
             )}
           </VideosQuery>
         </FilterSection>
         <VideosSection>
           <VideosQuery keyword={keyword} sort={sort}>
-            {({ videos }) => <Videos videos={videos} />}
+            {({ searchVideos: { total, results } }) => [
+              <p>
+                有 <b>{total}</b> 項結果
+              </p>,
+              <Videos videos={results} />,
+            ]}
           </VideosQuery>
         </VideosSection>
       </SearchSection>

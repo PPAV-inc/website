@@ -4,15 +4,18 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 
 const QUERY = gql`
-  query videos($keyword: String!, $sort: String!) {
-    videos(keyword: $keyword, sort: $sort) {
-      title
-      models
-      img_url
-      code
-      total_view_count
-      tags
-      publishedAt
+  query searchVideos($keyword: String!, $sort: String!) {
+    searchVideos(keyword: $keyword, sort: $sort) {
+      total
+      results {
+        title
+        models
+        img_url
+        code
+        total_view_count
+        tags
+        publishedAt
+      }
     }
   }
 `;
