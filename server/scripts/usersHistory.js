@@ -1,4 +1,3 @@
-import subDays from 'date-fns/sub_days';
 import pMap from 'p-map';
 
 import { getMongoDatabase } from '../src/database';
@@ -9,38 +8,53 @@ require('dotenv').config();
   const db = await getMongoDatabase();
 
   const now = new Date();
-  const daysBefore = subDays(now, 1);
+
+  const aggs = [
+    {
+      $lookup: {
+        from: 'videos',
+        localField: 'videoId',
+        foreignField: '_id',
+        as: 'info',
+      },
+    },
+    { $unwind: '$info' },
+    { $unwind: '$info.models' },
+    {
+      $group: {
+        _id: '$userId',
+        codes: { $addToSet: '$info.code' },
+        models: { $addToSet: '$info.models' },
+      },
+    },
+    {
+      $project: {
+        userId: '$_id',
+        codes: 1,
+        models: 1,
+      },
+    },
+  ];
+
+  const lastModified = await db
+    .collection('users_history')
+    .find()
+    .sort({ updatedAt: -1 })
+    .limit(1)
+    .toArray();
+
+  if (lastModified.length > 0) {
+    aggs.unshift({
+      $match: { createdAt: { $gte: lastModified[0].updatedAt } },
+    });
+  }
 
   const newUsersHistory = await db
     .collection('logs')
-    .aggregate([
-      { $match: { createdAt: { $gte: daysBefore } } },
-      {
-        $lookup: {
-          from: 'videos',
-          localField: 'videoId',
-          foreignField: '_id',
-          as: 'info',
-        },
-      },
-      { $unwind: '$info' },
-      { $unwind: '$info.models' },
-      {
-        $group: {
-          _id: '$userId',
-          codes: { $addToSet: '$info.code' },
-          models: { $addToSet: '$info.models' },
-        },
-      },
-      {
-        $project: {
-          userId: '$_id',
-          codes: 1,
-          models: 1,
-        },
-      },
-    ])
+    .aggregate(aggs)
     .toArray();
+
+  console.log(`newUsersHistory length: ${newUsersHistory.length}`);
 
   await pMap(
     newUsersHistory,
