@@ -43,6 +43,12 @@ class SearchInput extends Component {
     Router.pushRoute('search', { keyword: this.state.value });
   };
 
+  handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      this.handleClick();
+    }
+  };
+
   render() {
     return (
       <Row type="flex" justify="center" align="middle">
@@ -51,6 +57,7 @@ class SearchInput extends Component {
             placeholder="試試「波多野結衣」"
             value={this.state.value}
             onChange={this.handleChange}
+            onKeyPress={this.handleKeyPress}
           />
         </Col>
         <Col xs={4} md={4} xl={4}>

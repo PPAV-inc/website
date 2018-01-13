@@ -23,7 +23,6 @@ const QUERY = gql`
 class VideosQuery extends Component {
   render() {
     if (!this.props.data.loading) {
-      console.log(this.props.data);
       return this.props.children(this.props.data);
     }
 
