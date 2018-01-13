@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import queryString from 'query-string';
 
 import Filter from './Filter';
 import Videos from './Videos';
@@ -27,7 +28,17 @@ const FilterSection = styled.section`
 class Search extends Component {
   state = {
     sort: 'total_view_count',
+    models: [],
   };
+
+  componentWillMount() {
+    const { sort } = queryString.parse(this.props.url.query.filter);
+
+    this.setState(prevState => ({
+      ...prevState,
+      sort: sort || 'total_view_count',
+    }));
+  }
 
   onSortChange = value => {
     this.setState(prevState => ({
@@ -36,22 +47,41 @@ class Search extends Component {
     }));
   };
 
+  onModelsChange = value => {
+    this.setState(prevState => ({
+      ...prevState,
+      models: value,
+    }));
+  };
+
   render() {
     const keyword = decodeURI(this.props.url.query.keyword);
-    const { sort } = this.state;
+    const { sort, models } = this.state;
 
     return (
       <SearchSection>
         <FilterSection>
           <VideosQuery keyword={keyword} sort={sort}>
-            {({ videos }) => (
-              <Filter videos={videos} onSortChange={this.onSortChange} />
+            {({ searchVideos: { results } }) => (
+              <Filter
+                videos={results}
+                filter={{
+                  sort,
+                }}
+                onSortChange={this.onSortChange}
+                onModelsChange={this.onModelsChange}
+              />
             )}
           </VideosQuery>
         </FilterSection>
         <VideosSection>
-          <VideosQuery keyword={keyword} sort={sort}>
-            {({ videos }) => <Videos videos={videos} />}
+          <VideosQuery keyword={keyword} sort={sort} models={models}>
+            {({ searchVideos: { total, results } }) => [
+              <p key="total">
+                有 <b>{total}</b> 項結果
+              </p>,
+              <Videos videos={results} key="videos" />,
+            ]}
           </VideosQuery>
         </VideosSection>
       </SearchSection>

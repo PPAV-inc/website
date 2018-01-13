@@ -6,14 +6,22 @@ const { Option } = Select;
 
 class Filter extends Component {
   render() {
-    const { videos, onSortChange } = this.props;
-    console.log(videos);
+    const { videos, onSortChange, onModelsChange, filter } = this.props;
+
+    const models = videos.reduce((accumulator, { models: _models }) => {
+      _models.forEach(_model => {
+        if (accumulator.indexOf(_model) === -1) {
+          accumulator.push(_model);
+        }
+      });
+      return accumulator;
+    }, []);
 
     return (
       <Row gutter={16} type="flex" justify="start">
         <Col span={3}>
           <Select
-            defaultValue="total_view_count"
+            defaultValue={filter.sort}
             onChange={onSortChange}
             style={{ width: '100%' }}
           >
@@ -23,13 +31,25 @@ class Filter extends Component {
             <Option value="length">依影片長度</Option>
           </Select>
         </Col>
+        <Col span={6}>
+          <Select
+            mode="multiple"
+            placeholder="請選擇女優"
+            onChange={onModelsChange}
+            style={{ width: '100%' }}
+          >
+            {models.map(model => <Option key={model}>{model}</Option>)}
+          </Select>
+        </Col>
       </Row>
     );
   }
 }
 
 Filter.propTypes = {
+  filter: PropTypes.object.isRequired,
   videos: PropTypes.arrayOf(PropTypes.object),
+  onModelsChange: PropTypes.func.isRequired,
   onSortChange: PropTypes.func.isRequired,
 };
 

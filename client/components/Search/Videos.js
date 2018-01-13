@@ -9,7 +9,7 @@ class Videos extends Component {
     const { videos } = this.props;
 
     return (
-      <Row gutter={16} type="flex" justify="space-around">
+      <Row gutter={16} type="flex" justify="start">
         <VideosRow videos={videos} colSpan={6} />
       </Row>
     );
