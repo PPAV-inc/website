@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
+import queryString from 'query-string';
 
 import Filter from './Filter';
 import Videos from './Videos';
@@ -30,6 +31,15 @@ class Search extends Component {
     models: [],
   };
 
+  componentWillMount() {
+    const { sort } = queryString.parse(this.props.url.query.filter);
+
+    this.setState(prevState => ({
+      ...prevState,
+      sort: sort || 'total_view_count',
+    }));
+  }
+
   onSortChange = value => {
     this.setState(prevState => ({
       ...prevState,
@@ -55,6 +65,9 @@ class Search extends Component {
             {({ searchVideos: { results } }) => (
               <Filter
                 videos={results}
+                filter={{
+                  sort,
+                }}
                 onSortChange={this.onSortChange}
                 onModelsChange={this.onModelsChange}
               />

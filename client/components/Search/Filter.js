@@ -6,7 +6,7 @@ const { Option } = Select;
 
 class Filter extends Component {
   render() {
-    const { videos, onSortChange, onModelsChange } = this.props;
+    const { videos, onSortChange, onModelsChange, filter } = this.props;
 
     const models = videos.reduce((accumulator, { models: _models }) => {
       _models.forEach(_model => {
@@ -21,7 +21,7 @@ class Filter extends Component {
       <Row gutter={16} type="flex" justify="start">
         <Col span={3}>
           <Select
-            defaultValue="total_view_count"
+            defaultValue={filter.sort}
             onChange={onSortChange}
             style={{ width: '100%' }}
           >
@@ -47,6 +47,7 @@ class Filter extends Component {
 }
 
 Filter.propTypes = {
+  filter: PropTypes.object.isRequired,
   videos: PropTypes.arrayOf(PropTypes.object),
   onModelsChange: PropTypes.func.isRequired,
   onSortChange: PropTypes.func.isRequired,
