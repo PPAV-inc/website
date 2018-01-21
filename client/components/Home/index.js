@@ -13,6 +13,7 @@ import Videos from './Videos';
 
 const videosFragment = gql`
   fragment SimpleVideo on Video {
+    _id
     title
     models
     img_url

@@ -10,12 +10,10 @@ const { Meta } = Card;
 
 class VideosRow extends Component {
   state = {
-    showModal: this.props.videos.reduce(
-      (accumulator, video) => ({
-        [video._id]: false,
-      }),
-      {}
-    ),
+    showModal: this.props.videos.reduce((accumulator, video) => {
+      accumulator[video._id] = false;
+      return accumulator;
+    }, {}),
   };
 
   toggleShowModal = id => {
@@ -42,20 +40,23 @@ class VideosRow extends Component {
         tags,
         total_view_count: totalViewCount,
       }) => (
-        <Col
-          span={colSpan}
-          key={code}
-          style={{ padding: '5px' }}
-          onClick={() => {
-            this.toggleShowModal(_id);
-          }}
-        >
+        <Col span={colSpan} key={code} style={{ padding: '5px' }}>
           <VideoQuery id={_id}>
             {({ video: data }) => (
-              <VideoModal data={data} visible={showModal[_id]} />
+              <VideoModal
+                data={data}
+                visible={showModal[_id]}
+                toggleShowModal={this.toggleShowModal}
+              />
             )}
           </VideoQuery>
-          <Card hoverable cover={<img alt={code} src={imgURL} />}>
+          <Card
+            hoverable
+            cover={<img alt={code} src={imgURL} />}
+            onClick={() => {
+              this.toggleShowModal(_id);
+            }}
+          >
             <Meta
               title={
                 <span style={{ whiteSpace: 'normal' }}>

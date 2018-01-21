@@ -6,6 +6,7 @@ import { graphql } from 'react-apollo';
 const QUERY = gql`
   query video($id: String!) {
     video(id: $id) {
+      _id
       title
       models
       img_url
