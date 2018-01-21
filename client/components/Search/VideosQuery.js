@@ -8,6 +8,7 @@ const QUERY = gql`
     searchVideos(keyword: $keyword, sort: $sort, models: $models) {
       total
       results {
+        _id
         title
         models
         img_url
