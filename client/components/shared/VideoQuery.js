@@ -17,9 +17,9 @@ const QUERY = gql`
         url
         view_count
       }
+      score
       length
       tags
-      publishedAt
     }
   }
 `;

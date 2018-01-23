@@ -67,17 +67,23 @@ class VideosRow extends Component {
               }
               description={
                 <div>
-                  <span>{`🎬 ${models.join(', ')}`}</span>
-                  <br />
-                  <span>
-                    {`🗓 ${format(publishedAt, 'YYYY/MM/DD')} 👁 ${
-                      totalViewCount
-                    }`}
+                  <span role="img" aria-label="model">
+                    🎬&nbsp;
                   </span>
+                  {models.map(model => (
+                    <Tag color="magenta" key={model}>
+                      {model}
+                    </Tag>
+                  ))}
+                  <br />
+                  <span style={{ marginRight: '10px' }}>
+                    {`🗓 ${format(publishedAt, 'YYYY/MM/DD')}`}
+                  </span>
+                  <span>{`👁 ${totalViewCount}`}</span>
                   <br />
                   <br />
                   {tags.map(tag => (
-                    <Tag color="magenta" key={tag}>
+                    <Tag color="blue" key={tag}>
                       {tag}
                     </Tag>
                   ))}
