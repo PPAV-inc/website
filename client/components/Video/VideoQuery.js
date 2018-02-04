@@ -4,8 +4,8 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 
 const QUERY = gql`
-  query video($id: String!) {
-    video(id: $id) {
+  query video($code: String!) {
+    video(code: $code) {
       _id
       title
       models
@@ -40,7 +40,7 @@ VideoQuery.propTypes = {
 };
 
 export default graphql(QUERY, {
-  options: ({ id }) => ({
-    variables: { id },
+  options: ({ code }) => ({
+    variables: { code },
   }),
 })(VideoQuery);

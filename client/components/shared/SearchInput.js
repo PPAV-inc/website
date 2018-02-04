@@ -40,7 +40,11 @@ class SearchInput extends Component {
   };
 
   handleClick = () => {
-    Router.pushRoute('search', { keyword: this.state.value });
+    Router.pushRoute(
+      'search',
+      { keyword: this.state.value },
+      { shallow: true }
+    );
   };
 
   handleKeyPress = e => {

@@ -1,10 +1,8 @@
-import { ObjectId } from 'mongodb';
-
 import { getMongoDatabase } from '../../database';
 
 export default async (obj, args) => {
   const db = await getMongoDatabase();
-  const { id } = args;
+  const { code } = args;
 
-  return db.collection('videos').findOne({ _id: ObjectId(id) });
+  return db.collection('videos').findOne({ code });
 };

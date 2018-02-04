@@ -6,7 +6,7 @@ const typeDefs = `
   scalar Date
 
   type Query {
-    video(id: String!): Video,
+    video(code: String!): Video,
     searchVideos(keyword: String, models: [String], tags: [String], sources: [String], days: Int, sort: String, page: Int): SearchResult,
     hotVideos: [Video],
     newVideos: [Video],

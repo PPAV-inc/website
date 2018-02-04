@@ -2,24 +2,57 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Col, Card, Tag } from 'antd';
 import format from 'date-fns/format';
+import createHistory from 'history/createBrowserHistory';
 
-import VideoQuery from './VideoQuery';
-import VideoModal from './VideoModal';
+import VideoQuery from '../Video/VideoQuery';
+import VideoModal from '../Video/VideoModal';
+
+let history;
 
 const { Meta } = Card;
 
 class VideosRow extends Component {
   state = {
     showModal: this.props.videos.reduce((accumulator, video) => {
-      accumulator[video._id] = false;
+      accumulator[video.code] = false;
       return accumulator;
     }, {}),
   };
 
-  toggleShowModal = id => {
+  componentDidMount() {
+    history = createHistory();
+
+    history.listen((location, action) => {
+      if (action === 'POP') {
+        if (location.key) {
+          // 下一頁
+          const regexp = /\/video\/(\S*)/g;
+          const code = regexp.exec(location.pathname)[1];
+
+          this.toggleShowModal(code);
+        } else {
+          // 上一頁
+          this.resetState();
+        }
+      }
+    });
+  }
+
+  resetState = () => {
+    const { showModal } = this.state;
+    const newShowModal = Object.assign(showModal);
+
+    Object.keys(newShowModal).forEach(key => (newShowModal[key] = false));
+
+    this.setState(() => ({
+      showModal: newShowModal,
+    }));
+  };
+
+  toggleShowModal = code => {
     const { showModal } = this.state;
 
-    showModal[id] = !showModal[id];
+    showModal[code] = !showModal[code];
     this.setState({
       showModal,
     });
@@ -31,7 +64,6 @@ class VideosRow extends Component {
 
     return videos.map(
       ({
-        _id,
         code,
         img_url: imgURL,
         title,
@@ -41,12 +73,15 @@ class VideosRow extends Component {
         total_view_count: totalViewCount,
       }) => (
         <Col span={colSpan} key={code} style={{ padding: '5px' }}>
-          <VideoQuery id={_id}>
+          <VideoQuery code={code}>
             {({ video: data }) => (
               <VideoModal
                 data={data}
-                visible={showModal[_id]}
-                toggleShowModal={this.toggleShowModal}
+                visible={showModal[code]}
+                toggleShowModal={() => {
+                  this.toggleShowModal(code);
+                  history.goBack();
+                }}
               />
             )}
           </VideoQuery>
@@ -54,7 +89,8 @@ class VideosRow extends Component {
             hoverable
             cover={<img alt={code} src={imgURL} />}
             onClick={() => {
-              this.toggleShowModal(_id);
+              this.toggleShowModal(code);
+              history.push(`/video/${code}`);
             }}
           >
             <Meta

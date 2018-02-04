@@ -4,7 +4,7 @@ const routes = nextRoutes();
 
 routes.add('index', '/');
 routes.add('search', '/s/:keyword/:filter*');
-routes.add('video', '/video/:id');
+routes.add('video', '/video/:code');
 routes.add('about');
 routes.add('bot');
 routes.add('help');
