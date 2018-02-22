@@ -31,7 +31,7 @@ export default async (obj, args) => {
   if (aggregateArr.length > 0 || isPPAV) {
     // aviod too many documents
     // FIXME
-    aggregateArr.push({ $limit: 1000 });
+    aggregateArr.push({ $limit: 100 });
 
     if (isPPAV) {
       aggregateArr.push({ $sample: { size: PAGE_VIDEOS_NUMBER } });
@@ -75,8 +75,8 @@ export default async (obj, args) => {
       set(queryBody, 'query.bool.filter.terms._id', filterIds);
     }
     if (sort) {
-      set(queryBody, `sort[0].${sort}`, 'desc');
-      set(queryBody, `sort[1]._score`, 'desc');
+      set(queryBody, `sort[0]._score`, 'desc');
+      set(queryBody, `sort[1].${sort}`, 'desc');
     }
     if (page) {
       queryBody.from = page * PAGE_VIDEOS_NUMBER;
