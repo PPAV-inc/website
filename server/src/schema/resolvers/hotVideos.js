@@ -1,4 +1,4 @@
-import ObjectId from 'mongodb';
+import { ObjectId } from 'mongodb';
 import subDays from 'date-fns/sub_days';
 
 import { getMongoDatabase } from '../../database';
