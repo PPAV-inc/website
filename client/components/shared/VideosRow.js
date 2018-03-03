@@ -77,7 +77,7 @@ class VideosRow extends Component {
             {({ video: data }) => (
               <VideoModal
                 data={data}
-                visible={showModal[code]}
+                visible={showModal[code] || false}
                 toggleShowModal={() => {
                   this.toggleShowModal(code);
                   history.goBack();
