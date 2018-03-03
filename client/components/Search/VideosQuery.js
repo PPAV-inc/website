@@ -4,8 +4,13 @@ import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
 
 const QUERY = gql`
-  query searchVideos($keyword: String!, $sort: String!, $models: [String]!) {
-    searchVideos(keyword: $keyword, sort: $sort, models: $models) {
+  query searchVideos(
+    $keyword: String!
+    $sort: String!
+    $models: [String]!
+    $page: Int!
+  ) {
+    searchVideos(keyword: $keyword, sort: $sort, models: $models, page: $page) {
       total
       results {
         _id
@@ -14,8 +19,14 @@ const QUERY = gql`
         img_url
         code
         total_view_count
+        videos {
+          source
+          url
+          view_count
+        }
+        score
+        length
         tags
-        publishedAt
       }
     }
   }
@@ -37,7 +48,12 @@ VideosQuery.propTypes = {
 };
 
 export default graphql(QUERY, {
-  options: ({ keyword = '', sort = 'total_view_count', models = [] }) => ({
-    variables: { keyword, sort, models },
+  options: ({
+    keyword = '',
+    sort = 'total_view_count',
+    models = [],
+    page = 1,
+  }) => ({
+    variables: { keyword, sort, models, page: page - 1 },
   }),
 })(VideosQuery);

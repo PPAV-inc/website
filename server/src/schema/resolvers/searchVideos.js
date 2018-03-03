@@ -3,7 +3,7 @@ import set from 'lodash/set';
 
 import { getMongoDatabase, getElasticsearchDatabase } from '../../database';
 
-const PAGE_VIDEOS_NUMBER = 12;
+const PAGE_VIDEOS_NUMBER = 20;
 
 export default async (obj, args) => {
   const { days, models, tags, sources, sort, page, keyword } = args;

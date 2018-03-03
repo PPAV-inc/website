@@ -42,7 +42,7 @@ class SearchInput extends Component {
   handleClick = () => {
     Router.pushRoute(
       'search',
-      { keyword: this.state.value },
+      { keyword: this.state.value, page: 1 },
       { shallow: true }
     );
   };
