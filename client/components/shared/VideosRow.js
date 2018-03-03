@@ -4,7 +4,6 @@ import { Col, Card, Tag } from 'antd';
 import format from 'date-fns/format';
 import createHistory from 'history/createBrowserHistory';
 
-import VideoQuery from '../Video/VideoQuery';
 import VideoModal from '../Video/VideoModal';
 
 let history;
@@ -64,27 +63,36 @@ class VideosRow extends Component {
 
     return videos.map(
       ({
+        _id,
         code,
         img_url: imgURL,
         title,
         publishedAt,
         models,
         tags,
+        length,
+        score,
         total_view_count: totalViewCount,
       }) => (
         <Col span={colSpan} key={code} style={{ padding: '5px' }}>
-          <VideoQuery code={code}>
-            {({ video: data }) => (
-              <VideoModal
-                data={data}
-                visible={showModal[code] || false}
-                toggleShowModal={() => {
-                  this.toggleShowModal(code);
-                  history.goBack();
-                }}
-              />
-            )}
-          </VideoQuery>
+          <VideoModal
+            data={{
+              _id,
+              code,
+              title,
+              img_url: imgURL,
+              models,
+              videos,
+              tags,
+              length,
+              score,
+            }}
+            visible={showModal[code] || false}
+            toggleShowModal={() => {
+              this.toggleShowModal(code);
+              history.goBack();
+            }}
+          />
           <Card
             hoverable
             cover={<img alt={code} src={imgURL} />}

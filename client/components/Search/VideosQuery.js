@@ -19,8 +19,14 @@ const QUERY = gql`
         img_url
         code
         total_view_count
+        videos {
+          source
+          url
+          view_count
+        }
+        score
+        length
         tags
-        publishedAt
       }
     }
   }
