@@ -6,9 +6,9 @@ const { Option } = Select;
 
 class Filter extends Component {
   render() {
-    const { videos, onSortChange, onModelsChange, filter } = this.props;
+    const { data, onSortChange, onModelsChange, filter } = this.props;
 
-    const models = videos.reduce((accumulator, { models: _models }) => {
+    const models = data.reduce((accumulator, { models: _models }) => {
       _models.forEach(_model => {
         if (accumulator.indexOf(_model) === -1) {
           accumulator.push(_model);
@@ -47,14 +47,14 @@ class Filter extends Component {
 }
 
 Filter.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.object),
   filter: PropTypes.object.isRequired,
-  videos: PropTypes.arrayOf(PropTypes.object),
   onModelsChange: PropTypes.func.isRequired,
   onSortChange: PropTypes.func.isRequired,
 };
 
 Filter.defaultProps = {
-  videos: [],
+  data: [],
 };
 
 export default Filter;

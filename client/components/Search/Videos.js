@@ -6,22 +6,22 @@ import VideosRow from '../shared/VideosRow';
 
 class Videos extends Component {
   render() {
-    const { videos } = this.props;
+    const { data } = this.props;
 
     return (
       <Row gutter={16} type="flex" justify="start">
-        <VideosRow videos={videos} colSpan={6} />
+        <VideosRow data={data} colSpan={6} />
       </Row>
     );
   }
 }
 
 Videos.propTypes = {
-  videos: PropTypes.arrayOf(PropTypes.object),
+  data: PropTypes.arrayOf(PropTypes.object),
 };
 
 Videos.defaultProps = {
-  videos: [],
+  data: [],
 };
 
 export default Videos;
