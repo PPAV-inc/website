@@ -89,7 +89,13 @@ export default async (obj, args) => {
     });
 
     total = _total;
-    results = hits.map(hit => ({ _id: hit._id, ...hit._source }));
+
+    results = hits.map(({ _id, _source }) => ({
+      _id,
+      ..._source,
+      models: _source.models || [],
+      tags: _source.tags || [],
+    }));
   }
 
   return { results, total };
