@@ -11,18 +11,14 @@ require('dotenv').config();
 
 const app = next({ dev: process.env.NODE_ENV !== 'production' });
 const handler = routes.getRequestHandler(app);
+const { PORT = 3000, SERVER_GRAPHQL_URL = 'localhost:8080' } = process.env;
 
 app.prepare().then(() => {
   express()
-    .use(
-      '/graphql',
-      proxy(
-        `http://${process.env.SERVER_GRAPHQL_URL || 'localhost'}:8080/graphql`
-      )
-    )
+    .use('/graphql', proxy(`http://${SERVER_GRAPHQL_URL}/graphql`))
     .use(favicon(path.join(__dirname, 'static', 'favicon.ico')))
     .use(handler)
-    .listen(3000, () => {
-      console.log('client on: http://localhost:3000');
+    .listen(PORT, () => {
+      console.log(`client on: http://localhost:${PORT}`);
     });
 });
