@@ -12,7 +12,7 @@ const FirstRow = styled(Row)`
 
 class Videos extends Component {
   render() {
-    const { title, videos } = this.props;
+    const { title, data } = this.props;
 
     return (
       <Card
@@ -25,10 +25,10 @@ class Videos extends Component {
         }
       >
         <FirstRow gutter={16} type="flex" justify="space-around">
-          <VideosRow videos={videos.slice(0, 3)} colSpan={8} />
+          <VideosRow data={data.slice(0, 3)} colSpan={8} />
         </FirstRow>
         <Row gutter={16}>
-          <VideosRow videos={videos.slice(3)} colSpan={8} />
+          <VideosRow data={data.slice(3)} colSpan={8} />
         </Row>
       </Card>
     );
@@ -36,13 +36,13 @@ class Videos extends Component {
 }
 
 Videos.propTypes = {
+  data: PropTypes.arrayOf(PropTypes.object),
   title: PropTypes.string,
-  videos: PropTypes.arrayOf(PropTypes.object),
 };
 
 Videos.defaultProps = {
+  data: [],
   title: '',
-  videos: [],
 };
 
 export default Videos;

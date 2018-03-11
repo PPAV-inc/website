@@ -7,7 +7,7 @@ const QUERY = gql`
   query searchVideos(
     $keyword: String!
     $sort: String!
-    $models: [String]!
+    $models: [String!]!
     $page: Int!
   ) {
     searchVideos(keyword: $keyword, sort: $sort, models: $models, page: $page) {
@@ -19,6 +19,7 @@ const QUERY = gql`
         img_url
         code
         total_view_count
+        publishedAt
         videos {
           source
           url

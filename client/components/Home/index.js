@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { graphql, compose } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -12,7 +12,7 @@ import SearchInput from '../shared/SearchInput';
 import Videos from './Videos';
 
 const videosFragment = gql`
-  fragment SimpleVideo on Video {
+  fragment Video on Video {
     _id
     title
     models
@@ -21,13 +21,20 @@ const videosFragment = gql`
     total_view_count
     tags
     publishedAt
+    length
+    score
+    videos {
+      source
+      url
+      view_count
+    }
   }
 `;
 
 const hotVideosQuery = gql`
   query {
     hotVideos {
-      ...SimpleVideo
+      ...Video
     }
   }
   ${videosFragment}
@@ -36,7 +43,7 @@ const hotVideosQuery = gql`
 const newVideosQuery = gql`
   query {
     newVideos {
-      ...SimpleVideo
+      ...Video
     }
   }
   ${videosFragment}
@@ -64,38 +71,40 @@ class Home extends Component {
       newVideosQuery: { newVideos },
     } = this.props;
 
-    return [
-      <SearchSection key="searchSection">
-        <Row
-          type="flex"
-          justify="start"
-          align="middle"
-          style={{ margin: '0 50px' }}
-        >
-          <Col>
-            <Link route="/?logo=1">
-              <Logo src={logo} alt="Logo" />
-            </Link>
-          </Col>
-        </Row>
-        <Row
-          type="flex"
-          justify="center"
-          align="middle"
-          style={{ height: '100%' }}
-        >
-          <Col span={12}>
-            <SearchInput />
-          </Col>
-        </Row>
-      </SearchSection>,
-      <VideosSection key="hot">
-        {hotVideos ? <Videos title="熱門影片" videos={hotVideos} /> : null}
-      </VideosSection>,
-      <VideosSection key="latest">
-        {newVideos ? <Videos title="最新影片" videos={newVideos} /> : null}
-      </VideosSection>,
-    ];
+    return (
+      <Fragment>
+        <SearchSection key="searchSection">
+          <Row
+            type="flex"
+            justify="start"
+            align="middle"
+            style={{ margin: '0 50px' }}
+          >
+            <Col>
+              <Link route="/?logo=1">
+                <Logo src={logo} alt="Logo" />
+              </Link>
+            </Col>
+          </Row>
+          <Row
+            type="flex"
+            justify="center"
+            align="middle"
+            style={{ height: '100%' }}
+          >
+            <Col span={12}>
+              <SearchInput />
+            </Col>
+          </Row>
+        </SearchSection>
+        <VideosSection key="hot">
+          {hotVideos ? <Videos title="熱門影片" data={hotVideos} /> : null}
+        </VideosSection>
+        <VideosSection key="latest">
+          {newVideos ? <Videos title="最新影片" data={newVideos} /> : null}
+        </VideosSection>
+      </Fragment>
+    );
   }
 }
 

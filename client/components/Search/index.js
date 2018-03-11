@@ -84,7 +84,7 @@ class Search extends Component {
           <VideosQuery keyword={keyword} sort={sort}>
             {({ searchVideos: { results } }) => (
               <Filter
-                videos={results}
+                data={results}
                 filter={{
                   sort,
                 }}
@@ -105,7 +105,7 @@ class Search extends Component {
               <p key="total">
                 有 <b>{total}</b> 項結果
               </p>,
-              <Videos videos={results} key="videos" />,
+              <Videos data={results} key="videos" />,
               <Pagination
                 currentPage={page}
                 total={total}

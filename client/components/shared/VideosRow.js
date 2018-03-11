@@ -12,7 +12,7 @@ const { Meta } = Card;
 
 class VideosRow extends Component {
   state = {
-    showModal: this.props.videos.reduce((accumulator, video) => {
+    showModal: this.props.data.reduce((accumulator, video) => {
       accumulator[video.code] = false;
       return accumulator;
     }, {}),
@@ -59,9 +59,9 @@ class VideosRow extends Component {
 
   render() {
     const { showModal } = this.state;
-    const { videos, colSpan } = this.props;
+    const { data, colSpan } = this.props;
 
-    return videos.map(
+    return data.map(
       ({
         _id,
         code,
@@ -73,6 +73,7 @@ class VideosRow extends Component {
         length,
         score,
         total_view_count: totalViewCount,
+        videos,
       }) => (
         <Col span={colSpan} key={code} style={{ padding: '5px' }}>
           <VideoModal
@@ -143,7 +144,7 @@ class VideosRow extends Component {
 
 VideosRow.propTypes = {
   colSpan: PropTypes.number.isRequired,
-  videos: PropTypes.arrayOf(PropTypes.object).isRequired,
+  data: PropTypes.arrayOf(PropTypes.object).isRequired,
 };
 
 export default VideosRow;
