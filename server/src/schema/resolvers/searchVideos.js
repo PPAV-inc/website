@@ -29,7 +29,7 @@ export default async (obj, args) => {
   }
 
   if (aggregateArr.length > 0 || isPPAV) {
-    // aviod too many documents
+    // avoid too many documents
     // FIXME
     aggregateArr.push({ $limit: 100 });
 
@@ -56,17 +56,36 @@ export default async (obj, args) => {
       query: {
         bool: {
           must: {
-            multi_match: {
-              query: keyword,
-              type: 'cross_fields',
-              fields: ['tags^200', 'title^50', 'models^100', 'code^1000'],
+            match: {
+              // TODO: 可以讓使用者選擇 models, title, tags 等等
+              models: {
+                query: keyword,
+              },
             },
           },
         },
       },
-      min_score: 50,
       size: PAGE_VIDEOS_NUMBER,
     };
+
+    const { aggregations: aggs } = await esClient.search({
+      index: 'videos',
+      type: 'videos',
+      body: {
+        ...queryBody,
+        // Percentiles aggs, 取得 query 的分數統計
+        aggs: {
+          load_time_outlier: {
+            percentiles: {
+              script: '_score',
+            },
+          },
+        },
+      },
+    });
+
+    // set min_score to be PR 95%
+    set(queryBody, 'min_score', aggs.load_time_outlier.values['95.0']);
 
     // get results from mongoDB
     if (results) {
@@ -75,18 +94,20 @@ export default async (obj, args) => {
       set(queryBody, 'query.bool.filter.terms._id', filterIds);
     }
     if (sort) {
-      set(queryBody, `sort[0]._score`, 'desc');
-      set(queryBody, `sort[1].${sort}`, 'desc');
+      set(queryBody, `sort[0].${sort}`, 'desc');
     }
     if (page) {
       queryBody.from = page * PAGE_VIDEOS_NUMBER;
     }
 
-    const { hits: { total: _total, hits } } = await esClient.search({
+    const result = await esClient.search({
       index: 'videos',
       type: 'videos',
       body: queryBody,
     });
+    const {
+      hits: { total: _total, hits },
+    } = result;
 
     total = _total;
 
