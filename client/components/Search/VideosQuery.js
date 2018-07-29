@@ -6,11 +6,18 @@ import { graphql } from 'react-apollo';
 const QUERY = gql`
   query searchVideos(
     $keyword: String!
+    $mode: String!
     $sort: String!
     $models: [String!]!
     $page: Int!
   ) {
-    searchVideos(keyword: $keyword, sort: $sort, models: $models, page: $page) {
+    searchVideos(
+      keyword: $keyword
+      mode: $mode
+      sort: $sort
+      models: $models
+      page: $page
+    ) {
       total
       results {
         _id
@@ -51,10 +58,11 @@ VideosQuery.propTypes = {
 export default graphql(QUERY, {
   options: ({
     keyword = '',
+    mode = '女優',
     sort = 'total_view_count',
     models = [],
     page = 1,
   }) => ({
-    variables: { keyword, sort, models, page: page - 1 },
+    variables: { keyword, mode, sort, models, page: page - 1 },
   }),
 })(VideosQuery);

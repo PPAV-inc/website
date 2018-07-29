@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Row, Col, Input } from 'antd';
+import { Row, Col, Input, Select } from 'antd';
 import styled from 'styled-components';
 
 import { Router } from '../../routes';
@@ -30,9 +30,19 @@ const SearchButton = styled.button`
   line-height: 48px;
 `;
 
+const SearchSelect = styled(Select)`
+  width: 100%;
+  height: 48px;
+  padding: 5px 5px;
+  font-size: 19px;
+`;
+
+const Option = Select.Option;
+
 class SearchInput extends Component {
   state = {
     value: this.props.value,
+    mode: this.props.mode,
   };
 
   handleChange = e => {
@@ -42,9 +52,13 @@ class SearchInput extends Component {
   handleClick = () => {
     Router.pushRoute(
       'search',
-      { keyword: this.state.value, page: 1 },
+      { keyword: this.state.value, mode: this.state.mode, page: 1 },
       { shallow: true }
     );
+  };
+
+  handleSelectChange = value => {
+    this.setState({ mode: value });
   };
 
   handleKeyPress = e => {
@@ -56,13 +70,24 @@ class SearchInput extends Component {
   render() {
     return (
       <Row type="flex" justify="center" align="middle">
-        <Col xs={20} md={20} xl={20}>
+        <Col xs={15} md={15} xl={15}>
           <StyledInput
             placeholder="試試「波多野結衣」"
             value={this.state.value}
             onChange={this.handleChange}
             onKeyPress={this.handleKeyPress}
           />
+        </Col>
+        <Col>
+          <SearchSelect
+            name="selectMode"
+            defaultValue={this.state.mode}
+            onChange={this.handleSelectChange}
+          >
+            <Option value="女優">女優</Option>
+            <Option value="標題">標題</Option>
+            <Option value="標籤">標籤</Option>
+          </SearchSelect>
         </Col>
         <Col xs={4} md={4} xl={4}>
           <SearchButton onClick={this.handleClick}>搜尋</SearchButton>
@@ -74,10 +99,12 @@ class SearchInput extends Component {
 
 SearchInput.propTypes = {
   value: PropTypes.string,
+  mode: PropTypes.string,
 };
 
 SearchInput.defaultProps = {
   value: '',
+  mode: '女優',
 };
 
 export default SearchInput;

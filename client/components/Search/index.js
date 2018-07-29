@@ -48,12 +48,16 @@ class Search extends Component {
   }
 
   componentDidMount() {
-    const { keyword, page } = this.props.url.query;
+    const { keyword, mode = '女優', page } = this.props.url.query;
 
     if (!page) {
       Router.pushRoute(
         'search',
-        { keyword: decodeURI(keyword), page: 1 },
+        {
+          keyword: decodeURI(keyword),
+          mode: decodeURI(mode),
+          page: 1,
+        },
         { shallow: true }
       );
     }
@@ -76,12 +80,15 @@ class Search extends Component {
 
   render() {
     const keyword = decodeURI(this.props.url.query.keyword);
+    const { mode: _mode = '女優' } = this.props.url.query;
+    const mode = decodeURI(_mode);
+
     const { page, sort, models } = this.state;
 
     return (
       <SearchSection>
         <FilterSection>
-          <VideosQuery keyword={keyword} sort={sort}>
+          <VideosQuery keyword={keyword} mode={mode} sort={sort}>
             {({ searchVideos: { results } }) => (
               <Filter
                 data={results}
@@ -97,6 +104,7 @@ class Search extends Component {
         <VideosSection>
           <VideosQuery
             keyword={keyword}
+            mode={mode}
             sort={sort}
             models={models}
             page={page}
@@ -112,7 +120,7 @@ class Search extends Component {
                 onChange={p => {
                   Router.pushRoute(
                     'search',
-                    { keyword, page: p },
+                    { keyword, mode, page: p },
                     { shallow: true }
                   );
 

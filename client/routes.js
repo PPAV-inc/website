@@ -3,7 +3,7 @@ const nextRoutes = require('next-routes');
 const routes = nextRoutes();
 
 routes.add('index', '/');
-routes.add('search', '/s/:keyword/:page*/:filter*');
+routes.add('search', '/s/:keyword/:mode/:page*/:filter*');
 routes.add('video', '/video/:code');
 routes.add('about');
 routes.add('bot');
