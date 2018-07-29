@@ -6,10 +6,23 @@ import { getMongoDatabase, getElasticsearchDatabase } from '../../database';
 const PAGE_VIDEOS_NUMBER = 20;
 
 export default async (obj, args) => {
-  const { days, models, tags, sources, sort, page, keyword } = args;
+  const { days, models, tags, sources, sort, page, keyword, mode } = args;
   const db = await getMongoDatabase();
   let results;
   let total = -1;
+
+  let _mode;
+  switch (mode) {
+    case '標題':
+      _mode = 'title';
+      break;
+    case '標籤':
+      _mode = 'tags';
+      break;
+    case '女優':
+    default:
+      _mode = 'models';
+  }
 
   const aggregateArr = [];
   const isPPAV = !keyword || /^ppav$/i.test(keyword);
@@ -57,10 +70,7 @@ export default async (obj, args) => {
         bool: {
           must: {
             match: {
-              // TODO: 可以讓使用者選擇 models, title, tags 等等
-              models: {
-                query: keyword,
-              },
+              [_mode]: keyword,
             },
           },
         },
