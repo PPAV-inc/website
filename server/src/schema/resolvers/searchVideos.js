@@ -19,6 +19,9 @@ export default async (obj, args) => {
     case '標籤':
       _mode = 'tags';
       break;
+    case '番號':
+      _mode = 'code';
+      break;
     case '女優':
     default:
       _mode = 'models';

@@ -87,6 +87,7 @@ class SearchInput extends Component {
             <Option value="女優">女優</Option>
             <Option value="標題">標題</Option>
             <Option value="標籤">標籤</Option>
+            <Option value="番號">番號</Option>
           </SearchSelect>
         </Col>
         <Col xs={4} md={4} xl={4}>
