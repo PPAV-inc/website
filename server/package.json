@@ -13,7 +13,7 @@
     "apollo-server-koa": "^1.2.0",
     "date-fns": "^1.29.0",
     "dotenv": "^6.1.0",
-    "elasticsearch": "^14.0.0",
+    "elasticsearch": "^15.1.1",
     "graphql": "^0.11.7",
     "graphql-tools": "^2.11.0",
     "koa": "^2.6.1",
@@ -25,13 +25,13 @@
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
-    "babel-jest": "^21.2.0",
+    "babel-jest": "^23.6.0",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",
     "babel-preset-env": "^1.6.1",
-    "jest": "^21.2.1",
+    "jest": "^23.6.0",
     "mongo-to-elastic": "^0.0.2",
-    "node-mongo-seeds": "^2.3.2",
+    "node-mongo-seeds": "^3.1.0",
     "nodemon": "^1.18.5"
   },
   "jest": {

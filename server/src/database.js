@@ -3,7 +3,7 @@ import elasticsearch from 'elasticsearch';
 
 let _mongodb;
 let _elasticsearchdb;
-const { dbName } = process.env;
+const { DB_NAME: dbName } = process.env;
 
 const getMongoDatabase = async () => {
   if (_mongodb) {
