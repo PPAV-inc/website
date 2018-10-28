@@ -38,7 +38,9 @@ class Filter extends Component {
             onChange={onModelsChange}
             style={{ width: '100%' }}
           >
-            {models.map(model => <Option key={model}>{model}</Option>)}
+            {models.map(model => (
+              <Option key={model}>{model}</Option>
+            ))}
           </Select>
         </Col>
       </Row>

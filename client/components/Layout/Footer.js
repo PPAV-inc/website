@@ -41,13 +41,15 @@ class Footer extends Component {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <Icon type="facebook" />&nbsp;&nbsp;PPAV 粉絲專頁
+                  <Icon type="facebook" />
+                  &nbsp;&nbsp;PPAV 粉絲專頁
                 </a>
               </StyledLi>
               <StyledLi>
                 <Link route="/bot">
                   <span>
-                    <Icon type="mobile" />&nbsp;&nbsp;Telegram 聊天機器人
+                    <Icon type="mobile" />
+                    &nbsp;&nbsp;Telegram 聊天機器人
                   </span>
                 </Link>
               </StyledLi>
