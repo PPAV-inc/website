@@ -3,6 +3,7 @@ import elasticsearch from 'elasticsearch';
 
 let _mongodb;
 let _elasticsearchdb;
+const { dbName } = process.env;
 
 const getMongoDatabase = async () => {
   if (_mongodb) {
@@ -14,8 +15,12 @@ const getMongoDatabase = async () => {
       ? process.env.PROD_MONGODB_PATH
       : process.env.DEV_MONGODB_PATH;
 
-  const db = await MongoClient.connect(mongodbPath);
-  _mongodb = db;
+  const client = await MongoClient.connect(
+    mongodbPath,
+    { useNewUrlParser: true }
+  );
+
+  _mongodb = client.db(dbName);
   return _mongodb;
 };
 

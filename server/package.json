@@ -12,16 +12,16 @@
   "dependencies": {
     "apollo-server-koa": "^1.2.0",
     "date-fns": "^1.29.0",
-    "dotenv": "^4.0.0",
+    "dotenv": "^6.1.0",
     "elasticsearch": "^14.0.0",
     "graphql": "^0.11.7",
     "graphql-tools": "^2.11.0",
-    "koa": "^2.4.1",
-    "koa-bodyparser": "^4.2.0",
-    "koa-router": "^7.3.0",
-    "lodash": "^4.17.4",
-    "mongodb": "^2.2.33",
-    "p-map": "^1.2.0"
+    "koa": "^2.6.1",
+    "koa-bodyparser": "^4.2.1",
+    "koa-router": "^7.4.0",
+    "lodash": "^4.17.11",
+    "mongodb": "^3.1.8",
+    "p-map": "^2.0.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -32,7 +32,7 @@
     "jest": "^21.2.1",
     "mongo-to-elastic": "^0.0.2",
     "node-mongo-seeds": "^2.3.2",
-    "nodemon": "^1.12.1"
+    "nodemon": "^1.18.5"
   },
   "jest": {
     "testPathIgnorePatterns": [
