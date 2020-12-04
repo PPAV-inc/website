@@ -2,6 +2,7 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import gql from 'graphql-tag';
 import { graphql } from 'react-apollo';
+import i18n from '../../lib/i18n';
 
 const QUERY = gql`
   query searchVideos(
@@ -58,7 +59,7 @@ VideosQuery.propTypes = {
 export default graphql(QUERY, {
   options: ({
     keyword = '',
-    mode = '女優',
+    mode = i18n.t('mode_actress'),
     sort = 'total_view_count',
     models = [],
     page = 1,

@@ -9,6 +9,7 @@ import Filter from './Filter';
 import Videos from './Videos';
 import Pagination from './Pagination';
 import VideosQuery from './VideosQuery';
+import i18n from '../../lib/i18n';
 
 const SearchSection = styled.section`
   margin-top: 80px;
@@ -48,7 +49,11 @@ class Search extends Component {
   }
 
   componentDidMount() {
-    const { keyword, mode = '女優', page } = this.props.url.query;
+    const {
+      keyword,
+      mode = i18n.t('mode_actress'),
+      page,
+    } = this.props.url.query;
 
     if (!page) {
       Router.pushRoute(
@@ -80,7 +85,7 @@ class Search extends Component {
 
   render() {
     const keyword = decodeURI(this.props.url.query.keyword);
-    const { mode: _mode = '女優' } = this.props.url.query;
+    const { mode: _mode = i18n.t('mode_actress') } = this.props.url.query;
     const mode = decodeURI(_mode);
 
     const { page, sort, models } = this.state;
@@ -111,7 +116,8 @@ class Search extends Component {
           >
             {({ searchVideos: { total, results } }) => [
               <p key="total">
-                有 <b>{total}</b> 項結果
+                {i18n.t('search_result_prefix')} <b>{total}</b>{' '}
+                {i18n.t('search_result_postfix')}
               </p>,
               <Videos data={results} key="videos" />,
               <Pagination

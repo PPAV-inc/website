@@ -4,6 +4,7 @@ import { Row, Col, Input, Select } from 'antd';
 import styled from 'styled-components';
 
 import { Router } from '../../routes';
+import i18n from '../../lib/i18n';
 
 const StyledInput = styled(Input)`
   height: 48px;
@@ -72,7 +73,7 @@ class SearchInput extends Component {
       <Row type="flex" justify="center" align="middle">
         <Col xs={15} md={15} xl={15}>
           <StyledInput
-            placeholder="試試「波多野結衣」"
+            placeholder={i18n.t('search_placeholder')}
             value={this.state.value}
             onChange={this.handleChange}
             onKeyPress={this.handleKeyPress}
@@ -84,14 +85,20 @@ class SearchInput extends Component {
             defaultValue={this.state.mode}
             onChange={this.handleSelectChange}
           >
-            <Option value="女優">女優</Option>
-            <Option value="標題">標題</Option>
-            <Option value="標籤">標籤</Option>
-            <Option value="番號">番號</Option>
+            <Option value={i18n.t('mode_actress')}>
+              {i18n.t('mode_actress')}
+            </Option>
+            <Option value={i18n.t('mode_title')}>{i18n.t('mode_title')}</Option>
+            <Option value={i18n.t('mode_tag')}>{i18n.t('mode_tag')}</Option>
+            <Option value={i18n.t('mode_number')}>
+              {i18n.t('mode_number')}
+            </Option>
           </SearchSelect>
         </Col>
         <Col xs={4} md={4} xl={4}>
-          <SearchButton onClick={this.handleClick}>搜尋</SearchButton>
+          <SearchButton onClick={this.handleClick}>
+            {i18n.t('search')}
+          </SearchButton>
         </Col>
       </Row>
     );
@@ -105,7 +112,7 @@ SearchInput.propTypes = {
 
 SearchInput.defaultProps = {
   value: '',
-  mode: '女優',
+  mode: i18n.t('mode_actress'),
 };
 
 export default SearchInput;

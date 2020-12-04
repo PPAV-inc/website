@@ -5,6 +5,7 @@ import styled from 'styled-components';
 
 import VideosRow from '../shared/VideosRow';
 import { Link } from '../../routes';
+import i18n from '../../lib/i18n';
 
 const FirstRow = styled(Row)`
   margin-bottom: 30px;
@@ -20,7 +21,7 @@ class Videos extends Component {
         bordered={false}
         extra={
           <Link route="/">
-            <Button>更多...</Button>
+            <Button>{i18n.t('more')}</Button>
           </Link>
         }
       >

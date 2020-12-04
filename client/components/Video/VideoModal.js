@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Modal, Row, Col, Button, List, Badge, Tag } from 'antd';
 import styled from 'styled-components';
+import i18n from '../../lib/i18n';
 
 const Poster = styled.img`
   width: 100%;
@@ -62,13 +63,13 @@ class VideoModal extends Component {
           <Col xs={24} sm={24} md={24} lg={24} xl={24}>
             <List>
               <List.Item>
-                <List.Item.Meta title="番號" />
+                <List.Item.Meta title={i18n.t('number')} />
                 <Content>
                   <b>{code}</b>
                 </Content>
               </List.Item>
               <List.Item>
-                <List.Item.Meta title="女優" />
+                <List.Item.Meta title={i18n.t('actress')} />
                 <Content>
                   {models.map(model => (
                     <Tag color="magenta" key={model}>
@@ -78,15 +79,15 @@ class VideoModal extends Component {
                 </Content>
               </List.Item>
               <List.Item>
-                <List.Item.Meta title="長度" />
-                <Content>{`${length} 分鐘`}</Content>
+                <List.Item.Meta title={i18n.t('video_length')} />
+                <Content>{`${length} ${i18n.t('minutes')}`}</Content>
               </List.Item>
               <List.Item>
-                <List.Item.Meta title="分數" />
+                <List.Item.Meta title={i18n.t('score')} />
                 <Content>{score}</Content>
               </List.Item>
               <List.Item>
-                <List.Item.Meta title="標籤" />
+                <List.Item.Meta title={i18n.t('tag')} />
                 <Content>
                   {tags.map(tag => (
                     <Tag color="blue" key={tag}>
@@ -96,7 +97,7 @@ class VideoModal extends Component {
                 </Content>
               </List.Item>
               <List.Item>
-                <List.Item.Meta title="影片" />
+                <List.Item.Meta title={i18n.t('video')} />
                 <Content>
                   <List
                     style={{ width: '100%' }}
