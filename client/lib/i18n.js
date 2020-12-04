@@ -3,7 +3,7 @@ import locales from './locales';
 
 i18next
   .init({
-    lng: 'zh-CN',
+    lng: 'zh-TW',
     debug: true,
     resources: locales,
   })
