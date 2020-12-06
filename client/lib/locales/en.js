@@ -23,6 +23,7 @@ export default {
   tag: 'Tag',
   number: 'Number',
   video_length: 'Video length',
+  score: 'Score',
   video: 'Video',
   minutes: 'minutes',
   // footer

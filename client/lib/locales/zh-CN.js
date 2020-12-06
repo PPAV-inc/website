@@ -23,6 +23,7 @@ export default {
   tag: '标签',
   number: '番号',
   video_length: '长度',
+  score: '分数',
   video: '影片',
   minutes: '分钟',
   // footer
