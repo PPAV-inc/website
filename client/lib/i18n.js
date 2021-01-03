@@ -3,8 +3,8 @@ import locales from './locales';
 
 i18next
   .init({
-    lng: 'zh-TW',
-    debug: true,
+    lng: process.env.LNG || 'zh-TW',
+    debug: process.env.NODE_ENV !== 'production',
     resources: locales,
   })
   .then(t => {

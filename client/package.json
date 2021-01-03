@@ -1,8 +1,14 @@
 {
   "scripts": {
     "build": "NODE_ENV=production next build",
-    "dev": "babel-node server",
-    "start": "NODE_ENV=production node server",
+    "build:cn": "NODE_ENV=production LNG=zh-CN next build",
+    "build:en": "NODE_ENV=production LNG=en next build",
+    "build:tw": "NODE_ENV=production LNG=zh-TW next build",
+    "dev": "LNG=zh-TW babel-node server",
+    "start": "npm run start:tw",
+    "start:cn": "NODE_ENV=production LNG=zh-CN node server",
+    "start:en": "NODE_ENV=production LNG=en node server",
+    "start:tw": "NODE_ENV=production LNG=zh-TW node server",
     "test": "npm run testonly",
     "testonly": "NODE_ENV=test jest",
     "testonly:cov": "NODE_ENV=test jest --coverage --runInBand --forceExit",
