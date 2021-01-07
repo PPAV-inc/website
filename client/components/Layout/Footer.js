@@ -3,6 +3,7 @@ import { Layout, Row, Col, Icon, Divider } from 'antd';
 import styled from 'styled-components';
 
 import { Link } from '../../routes';
+import i18n from '../../lib/i18n';
 
 const { Footer: AntdFooter } = Layout;
 
@@ -42,14 +43,14 @@ class Footer extends Component {
                   rel="noopener noreferrer"
                 >
                   <Icon type="facebook" />
-                  &nbsp;&nbsp;PPAV 粉絲專頁
+                  &nbsp;&nbsp;{i18n.t('fb_page')}
                 </a>
               </StyledLi>
               <StyledLi>
                 <Link route="/bot">
                   <span>
                     <Icon type="mobile" />
-                    &nbsp;&nbsp;Telegram 聊天機器人
+                    &nbsp;&nbsp;{i18n.t('telegram_bot')}
                   </span>
                 </Link>
               </StyledLi>
@@ -59,12 +60,12 @@ class Footer extends Component {
             <StyledUl>
               <StyledLi>
                 <Link route="/about">
-                  <span>關於 PPAV</span>
+                  <span>{i18n.t('about')}</span>
                 </Link>
               </StyledLi>
               <StyledLi>
                 <Link route="/help">
-                  <span>協助</span>
+                  <span>{i18n.t('help')}</span>
                 </Link>
               </StyledLi>
               <StyledLi>
@@ -73,11 +74,11 @@ class Footer extends Component {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  意見回饋
+                  {i18n.t('feedback')}
                 </a>
               </StyledLi>
               <StyledLi>
-                <a href="mailto:ppav2017@gmail.com">聯絡我們</a>
+                <a href="mailto:ppav2017@gmail.com">{i18n.t('contact_us')}</a>
               </StyledLi>
             </StyledUl>
           </Col>
@@ -85,17 +86,17 @@ class Footer extends Component {
             <StyledUl>
               <StyledLi>
                 <Link route="/terms-of-service">
-                  <span>使用條款</span>
+                  <span>{i18n.t('terms_of_use')}</span>
                 </Link>
               </StyledLi>
               <StyledLi>
                 <Link route="/privacy">
-                  <span>隱私政策</span>
+                  <span>{i18n.t('privacy_policy')}</span>
                 </Link>
               </StyledLi>
               <StyledLi>
                 <Link route="/sitemap">
-                  <span>網站地圖</span>
+                  <span>{i18n.t('site_map')}</span>
                 </Link>
               </StyledLi>
             </StyledUl>
@@ -109,7 +110,7 @@ class Footer extends Component {
           <Col span={24} style={{ textAlign: 'center' }}>
             <div style={{ color: '#9ba2a6' }}>
               <Icon type="copyright" /> PPAV <Divider type="vertical" />{' '}
-              版權所有
+              {i18n.t('copyright')}
             </div>
           </Col>
         </Row>

@@ -8,6 +8,7 @@ import { Row, Col } from 'antd';
 import logo from '../../static/logo.png';
 import { Link } from '../../routes';
 import SearchInput from '../shared/SearchInput';
+import i18n from '../../lib/i18n';
 
 import Videos from './Videos';
 
@@ -98,10 +99,14 @@ class Home extends Component {
           </Row>
         </SearchSection>
         <VideosSection key="hot">
-          {hotVideos ? <Videos title="熱門影片" data={hotVideos} /> : null}
+          {hotVideos ? (
+            <Videos title={i18n.t('hot_videos')} data={hotVideos} />
+          ) : null}
         </VideosSection>
         <VideosSection key="latest">
-          {newVideos ? <Videos title="最新影片" data={newVideos} /> : null}
+          {newVideos ? (
+            <Videos title={i18n.t('new_videos')} data={newVideos} />
+          ) : null}
         </VideosSection>
       </Fragment>
     );
