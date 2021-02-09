@@ -6,6 +6,8 @@ const server = require('../src/server');
 
 require('dotenv').config();
 
-server.listen(8080, () => {
-  console.log('server is running on http://localhost:8080');
+const { PORT = 8080 } = process.env;
+
+server.listen(PORT, () => {
+  console.log(`server is running on http://localhost:${PORT}`);
 });
