@@ -53,7 +53,7 @@ class Header extends Component {
 
     return (
       <div>
-        {shouldShow ? (
+        {shouldShow && (
           <StyledHeader>
             <Row>
               <Col xs={4} md={2} xl={2}>
@@ -61,12 +61,12 @@ class Header extends Component {
                   <Logo src={logo} alt="Logo" />
                 </Link>
               </Col>
-              <Col xs={20} md={10} xl={10}>
-                <SearchInput value={this.props.value} />
+              <Col xs={20} md={20} xl={10}>
+                <SearchInput value={this.props.value} inHeader />
               </Col>
             </Row>
           </StyledHeader>
-        ) : null}
+        )}
       </div>
     );
   }

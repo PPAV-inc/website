@@ -40,6 +40,21 @@ const CustomLayout = ({ children, title, page, headerValue }) => (
         rel="stylesheet"
         href="//cdnjs.cloudflare.com/ajax/libs/antd/3.0.0/antd.min.css"
       />
+      <script
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=UA-107147708-1"
+      ></script>
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'UA-107147708-1');
+          `,
+        }}
+      />
     </Head>
 
     <StyledLayout>
