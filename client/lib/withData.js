@@ -10,7 +10,7 @@ function getComponentDisplayName(Component) {
   return Component.displayName || Component.name || 'Unknown';
 }
 
-export default ComposedComponent =>
+export default (ComposedComponent) =>
   class WithData extends React.Component {
     static displayName = `WithData(${getComponentDisplayName(
       ComposedComponent

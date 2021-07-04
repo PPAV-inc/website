@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { Row, Col, Input, Select } from 'antd';
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 import { Router } from '../../routes';
 import i18n from '../../lib/i18n';
@@ -22,19 +22,25 @@ const StyledInput = styled(Input)`
 
 const SearchButton = styled.button`
   width: 100%;
-  height: 48px;
-  margin: 14px 0;
+
+  border: 0;
   border-radius: 3px;
   background: #e73f0c;
   color: #fff;
   cursor: pointer;
   line-height: 48px;
+
+  ${(props) =>
+    !props.inHeader &&
+    css`
+      margin-top: 32px;
+    `}
 `;
 
 const SearchSelect = styled(Select)`
+  display: flex;
   width: 100%;
-  height: 48px;
-  padding: 5px 5px;
+  margin: 0 16px;
   font-size: 19px;
 `;
 
@@ -46,7 +52,7 @@ class SearchInput extends Component {
     mode: this.props.mode,
   };
 
-  handleChange = e => {
+  handleChange = (e) => {
     this.setState({ value: e.target.value });
   };
 
@@ -58,49 +64,66 @@ class SearchInput extends Component {
     );
   };
 
-  handleSelectChange = value => {
+  handleSelectChange = (value) => {
     this.setState({ mode: value });
   };
 
-  handleKeyPress = e => {
+  handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       this.handleClick();
     }
   };
 
   render() {
+    const { inHeader } = this.props;
+
     return (
-      <Row type="flex" justify="center" align="middle">
-        <Col xs={15} md={15} xl={15}>
-          <StyledInput
-            placeholder={i18n.t('search_placeholder')}
-            value={this.state.value}
-            onChange={this.handleChange}
-            onKeyPress={this.handleKeyPress}
-          />
-        </Col>
-        <Col>
-          <SearchSelect
-            name="selectMode"
-            defaultValue={this.state.mode}
-            onChange={this.handleSelectChange}
-          >
-            <Option value={i18n.t('mode_actress')}>
-              {i18n.t('mode_actress')}
-            </Option>
-            <Option value={i18n.t('mode_title')}>{i18n.t('mode_title')}</Option>
-            <Option value={i18n.t('mode_tag')}>{i18n.t('mode_tag')}</Option>
-            <Option value={i18n.t('mode_number')}>
-              {i18n.t('mode_number')}
-            </Option>
-          </SearchSelect>
-        </Col>
-        <Col xs={4} md={4} xl={4}>
-          <SearchButton onClick={this.handleClick}>
-            {i18n.t('search')}
-          </SearchButton>
-        </Col>
-      </Row>
+      <Fragment>
+        <Row type="flex" justify={inHeader ? 'start' : 'center'} align="middle">
+          <Col xs={9} md={12} xl={15}>
+            <StyledInput
+              placeholder={i18n.t('search_placeholder')}
+              value={this.state.value}
+              onChange={this.handleChange}
+              onKeyPress={this.handleKeyPress}
+            />
+          </Col>
+          <Col>
+            <SearchSelect
+              name="selectMode"
+              defaultValue={this.state.mode}
+              onChange={this.handleSelectChange}
+            >
+              <Option value={i18n.t('mode_actress')}>
+                {i18n.t('mode_actress')}
+              </Option>
+              <Option value={i18n.t('mode_title')}>
+                {i18n.t('mode_title')}
+              </Option>
+              <Option value={i18n.t('mode_tag')}>{i18n.t('mode_tag')}</Option>
+              <Option value={i18n.t('mode_number')}>
+                {i18n.t('mode_number')}
+              </Option>
+            </SearchSelect>
+          </Col>
+          {inHeader && (
+            <Col span={3}>
+              <SearchButton inHeader={inHeader} onClick={this.handleClick}>
+                {i18n.t('search')}
+              </SearchButton>
+            </Col>
+          )}
+        </Row>
+        {!inHeader && (
+          <Row type="flex" justify="center">
+            <Col span={12}>
+              <SearchButton inHeader={inHeader} onClick={this.handleClick}>
+                {i18n.t('search')}
+              </SearchButton>
+            </Col>
+          </Row>
+        )}
+      </Fragment>
     );
   }
 }

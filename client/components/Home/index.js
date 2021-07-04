@@ -51,7 +51,7 @@ const newVideosQuery = gql`
 `;
 
 const SearchSection = styled.section`
-  height: 70vh;
+  height: 100vh;
   width: 100%;
 `;
 
@@ -93,21 +93,23 @@ class Home extends Component {
             align="middle"
             style={{ height: '100%' }}
           >
-            <Col span={12}>
+            <Col span={16}>
               <SearchInput />
             </Col>
           </Row>
         </SearchSection>
-        <VideosSection key="hot">
-          {hotVideos ? (
+
+        {hotVideos && (
+          <VideosSection key="hot">
             <Videos title={i18n.t('hot_videos')} data={hotVideos} />
-          ) : null}
-        </VideosSection>
-        <VideosSection key="latest">
-          {newVideos ? (
+          </VideosSection>
+        )}
+
+        {newVideos && (
+          <VideosSection key="latest">
             <Videos title={i18n.t('new_videos')} data={newVideos} />
-          ) : null}
-        </VideosSection>
+          </VideosSection>
+        )}
       </Fragment>
     );
   }
